@@ -1,0 +1,19 @@
+﻿  ClockTest.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Main.cpp
+ClockTest.obj : error LNK2019: unresolved external symbol "public: __thiscall Clock::Clock(int,int)" (??0Clock@@QAE@HH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: __thiscall Clock::Clock(class Clock const &)" (??0Clock@@QAE@ABV0@@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: __thiscall Clock::~Clock(void)" (??1Clock@@QAE@XZ) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: class Clock & __thiscall Clock::operator=(class Clock const &)" (??4Clock@@QAEAAV0@ABV0@@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: int __thiscall Clock::GetMinute(void)const " (?GetMinute@Clock@@QBEHXZ) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: int __thiscall Clock::GetHour(void)const " (?GetHour@Clock@@QBEHXZ) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: void __thiscall Clock::SetMinute(int)" (?SetMinute@Clock@@QAEXH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: void __thiscall Clock::SetHour(int)" (?SetHour@Clock@@QAEXH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: void __thiscall Clock::ForwardMinutes(int)" (?ForwardMinutes@Clock@@QAEXH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: void __thiscall Clock::RewindMinutes(int)" (?RewindMinutes@Clock@@QAEXH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: void __thiscall Clock::ForwardHours(int)" (?ForwardHours@Clock@@QAEXH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "public: void __thiscall Clock::RewindHours(int)" (?RewindHours@Clock@@QAEXH@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "bool __cdecl operator==(class Clock const &,class Clock const &)" (??8@YA_NABVClock@@0@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+ClockTest.obj : error LNK2019: unresolved external symbol "bool __cdecl operator!=(class Clock const &,class Clock const &)" (??9@YA_NABVClock@@0@Z) referenced in function "public: static void __cdecl ClockTest::Run(void)" (?Run@ClockTest@@SAXXZ)
+C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\Testing\Debug\TestingTest.exe : fatal error LNK1120: 14 unresolved externals
