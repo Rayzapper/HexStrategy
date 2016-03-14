@@ -6,6 +6,11 @@ TextureManager& TextureManager::GetInstance()
 	return textureManager;
 }
 
+sf::Texture* TextureManager::GetTexture(int textureID)
+{
+	
+}
+
 TextureManager::TextureManager()
 {
 

@@ -21,6 +21,11 @@ void Tile::SetTileType(TileType type)
 	mTileType = type;
 }
 
+void Tile::SetTerrainType(TerrainType type)
+{
+	mTerrainType = type;
+}
+
 GridVector Tile::GetGridPosition() const
 {
 	return mGridPosition;
@@ -29,4 +34,9 @@ GridVector Tile::GetGridPosition() const
 TileType Tile::GetTileType() const
 {
 	return mTileType;
+}
+
+TerrainType Tile::GetTerrainType() const
+{
+	return mTerrainType;
 }
