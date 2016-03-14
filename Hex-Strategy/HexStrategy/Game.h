@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
-#include "Tile.h"
 
 using namespace std;
 
@@ -16,6 +15,7 @@ private:
 	Game(const Game &game);				//Singleton
 	Game& operator=(const Game &game);	//Singleton
 	~Game();
+	void Initialize();
 	void InternalClear();
 	void Update();
 	void Render();

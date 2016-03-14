@@ -14,7 +14,7 @@ private:
 	TextureManager& operator=(const TextureManager &textureManager);
 	~TextureManager();
 	void InternalClear();
-	sf::Texture mMercenaryTexture;
+	sf::Texture mTileTexture, mMercenaryTexture;
 };
 
 #endif

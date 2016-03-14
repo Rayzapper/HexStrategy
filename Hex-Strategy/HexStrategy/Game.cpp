@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Level.h"
 #include <iostream>
 #include <string>
 
@@ -54,6 +55,11 @@ Game::Game()
 Game::~Game()
 {
 	InternalClear();
+}
+
+void Game::Initialize()
+{
+	Entity::Initialize();
 }
 
 void Game::InternalClear()
