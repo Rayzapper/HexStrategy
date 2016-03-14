@@ -1,7 +1,13 @@
 #include "Tile.h"
 
-Tile::Tile(GridVector gridPosition)
-	: mGridPosition(gridPosition)
+Tile::Tile(int textureID, GridVector gridPosition)
+	: Entity(textureID),
+	mGridPosition(gridPosition)
+{
+
+}
+
+Tile::~Tile()
 {
 
 }
@@ -11,9 +17,9 @@ void Tile::Update()
 
 }
 
-void Tile::Render()
+void Tile::Render(sf::RenderWindow *window)
 {
-
+	
 }
 
 void Tile::SetTileType(TileType type)

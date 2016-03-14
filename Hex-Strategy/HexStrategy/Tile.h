@@ -27,9 +27,10 @@ enum TerrainType
 class Tile : public Entity
 {
 public:
-	Tile(GridVector gridPosition);
+	Tile(int textureID, GridVector gridPosition);
+	virtual ~Tile();
 	virtual void Update();
-	virtual void Render();
+	virtual void Render(sf::RenderWindow *window);
 	void SetTileType(TileType type);
 	void SetTerrainType(TerrainType type);
 	GridVector GetGridPosition() const;

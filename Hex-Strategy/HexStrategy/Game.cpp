@@ -1,15 +1,28 @@
 #include "Game.h"
 #include "Level.h"
+#include "GameStateManager.h"
 #include <iostream>
 #include <string>
 
 static const string programName = "Hex Strategy";
-static const int tileSize = 40;
+static const int tileSize = 32;
 
 static int windowWidth = 200, windowHeight = 200;
 static bool focus = true;
 
 static sf::RenderWindow *window;
+
+static GameStateManager stateManager;
+
+Game::Game()
+{
+
+}
+
+Game::~Game()
+{
+	InternalClear();
+}
 
 void Game::Run()
 {
@@ -30,7 +43,7 @@ void Game::Run()
 		}
 		if (focus)
 		{
-			Update();
+			Update(0);
 			Render();
 		}
 		else
@@ -39,22 +52,6 @@ void Game::Run()
 			sf::sleep(time);
 		}
 	}
-}
-
-Game& Game::GetInstance()
-{
-	static Game game;
-	return game;
-}
-
-Game::Game()
-{
-	
-}
-
-Game::~Game()
-{
-	InternalClear();
 }
 
 void Game::Initialize()
@@ -67,14 +64,14 @@ void Game::InternalClear()
 
 }
 
-void Game::Update()
+void Game::Update(float dt)
 {
-
+	stateManager.Update();
 }
 
 void Game::Render()
 {
 	window->clear();
-
+	stateManager.Render(window);
 	window->display();
 }

@@ -6,14 +6,12 @@
 class TextureManager
 {
 public:
-	static TextureManager& GetInstance();
+	static TextureManager& GetInstance();								//Singleton
 	sf::Texture* GetTexture(int textureID);
 private:
-	TextureManager();
-	TextureManager(const TextureManager &textureManager);
-	TextureManager& operator=(const TextureManager &textureManager);
-	~TextureManager();
-	void InternalClear();
+	TextureManager();													//Singleton
+	TextureManager(const TextureManager &textureManager);				//Singleton
+	TextureManager& operator=(const TextureManager &textureManager);	//Singleton
 	sf::Texture mTileTexture, mMercenaryTexture;
 };
 

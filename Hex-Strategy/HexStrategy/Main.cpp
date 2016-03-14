@@ -2,7 +2,7 @@
 
 int main()
 {
-	Game &game = Game::GetInstance();
+	Game game;
 	game.Run();
 	return 0;
 }

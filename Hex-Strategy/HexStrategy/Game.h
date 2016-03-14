@@ -8,16 +8,13 @@ using namespace std;
 class Game
 {
 public:
-	void Run();
-	static Game& GetInstance();			//Singleton
-private:
-	Game();								//Singleton
-	Game(const Game &game);				//Singleton
-	Game& operator=(const Game &game);	//Singleton
+	Game();
 	~Game();
+	void Run();
+private:
 	void Initialize();
 	void InternalClear();
-	void Update();
+	void Update(float dt);
 	void Render();
 };
 

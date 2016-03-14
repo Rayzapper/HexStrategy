@@ -19,13 +19,3 @@ TextureManager::TextureManager()
 	mTileTexture.loadFromFile("Resources/Graphics/Tiles_spritesheet.png");
 	mMercenaryTexture.loadFromFile("Resources/Graphics/Mercenary_spritesheet.png");
 }
-
-TextureManager::~TextureManager()
-{
-	InternalClear();
-}
-
-void TextureManager::InternalClear()
-{
-	
-}

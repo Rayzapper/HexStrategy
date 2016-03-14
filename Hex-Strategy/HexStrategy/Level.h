@@ -7,15 +7,16 @@
 class Level
 {
 public:
-	Level();
+	Level(GridVector mapSize);
 	~Level();
-	typedef std::vector<Tile> TileRow;
+	typedef std::vector<Tile*> TileRow;
 	typedef std::vector<TileRow> TileMap;
 	void Update();
-	void Render();
+	void Render(sf::RenderWindow *window);
 private:
 	void InternalClear();
 	TileMap mTileMap;
+	GridVector mMapSize;
 };
 
 #endif
