@@ -14,7 +14,6 @@ enum TileType
 enum TerrainType
 {
 	PLAIN,
-	FLOOR,
 	RIVER,
 	WATER,
 	VILLAGE,
@@ -27,7 +26,7 @@ enum TerrainType
 class Tile : public Entity
 {
 public:
-	Tile(int textureID, GridVector gridPosition);
+	Tile(int textureID, GridVector gridPosition, TileType tileType);
 	virtual ~Tile();
 	virtual void Update();
 	virtual void Render(sf::RenderWindow *window);
@@ -39,7 +38,7 @@ public:
 private:
 	GridVector mGridPosition;
 	TileType mTileType;
-	TerrainType mTerrainType;
+	TerrainType mTerrainType = PLAIN;
 };
 
 #endif

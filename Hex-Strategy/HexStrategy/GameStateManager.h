@@ -3,6 +3,7 @@
 
 #include <stack>
 #include "SplashState.h"
+#include "TitleState.h"
 
 class GameStateManager
 {
@@ -16,6 +17,10 @@ public:
 	void LoadContent();
 	void Update();
 	void Render(sf::RenderWindow *window);
+
+	void PushState(GameState *state);
+	void PopState();
+	void SwitchState(GameState *state);
 private:
 	GameStateManager();
 	GameStateManager(const GameStateManager &gameStateManager);	

@@ -1,0 +1,5 @@
+﻿  Tile.cpp
+  Level.cpp
+  Game.cpp
+  Generating Code...
+sfml-system-d.lib(sfml-system-d-2.dll) : fatal error LNK1112: module machine type 'X86' conflicts with target machine type 'x64'

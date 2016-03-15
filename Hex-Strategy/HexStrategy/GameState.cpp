@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "GameStateManager.h"
 
 GameState::GameState()
 {
@@ -10,22 +11,7 @@ GameState::~GameState()
 
 }
 
-void GameState::LoadContent()
+void GameState::ChangeState(GameStateManager *stateManager, GameState *state)
 {
-
-}
-
-void GameState::UnloadContent()
-{
-
-}
-
-void GameState::Update()
-{
-
-}
-
-void GameState::Render(sf::RenderWindow *window)
-{
-
+	stateManager->SwitchState(state);
 }

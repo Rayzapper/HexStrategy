@@ -12,8 +12,6 @@ static bool focus = true;
 
 static sf::RenderWindow *window;
 
-static GameStateManager stateManager;
-
 Game::Game()
 {
 
@@ -28,6 +26,9 @@ void Game::Run()
 {
 	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), programName);
 	window->setFramerateLimit(60);
+
+	GameStateManager::GetInstance().Initialize();
+	GameStateManager::GetInstance().LoadContent();
 	
 	while (window->isOpen())
 	{
@@ -40,11 +41,17 @@ void Game::Run()
 				focus = true;
 			if (event.type == sf::Event::LostFocus)
 				focus = false;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+				GameStateManager::GetInstance().SwitchState(new SplashState());
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T))
+				GameStateManager::GetInstance().SwitchState(new TitleState());
 		}
 		if (focus)
 		{
-			Update(0);
-			Render();
+			GameStateManager::GetInstance().Update();
+			window->clear();
+			GameStateManager::GetInstance().Render(window);
+			window->display();
 		}
 		else
 		{
@@ -62,16 +69,4 @@ void Game::Initialize()
 void Game::InternalClear()
 {
 
-}
-
-void Game::Update(float dt)
-{
-	stateManager.Update();
-}
-
-void Game::Render()
-{
-	window->clear();
-	stateManager.Render(window);
-	window->display();
 }

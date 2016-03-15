@@ -14,8 +14,6 @@ public:
 private:
 	void Initialize();
 	void InternalClear();
-	void Update(float dt);
-	void Render();
 };
 
 #endif

@@ -4,7 +4,16 @@
 Level::Level(GridVector mapSize)
 	: mMapSize(mapSize)
 {
-
+	for (int x = 0; x < mapSize.GetX(); x++)
+	{
+		TileRow collumn;
+		for (int y = 0; y < mapSize.GetY(); y++)
+		{
+			Tile *tile = new Tile(0, GridVector(x, y), FLOOR);
+			collumn.push_back(tile);
+		}
+		mTileMap.push_back(collumn);
+	}
 }
 
 Level::~Level()
@@ -14,12 +23,24 @@ Level::~Level()
 
 void Level::Update()
 {
-
+	for each (TileRow r in mTileMap)
+	{
+		for each (Tile *t in r)
+		{
+			t->Update();
+		}
+	}
 }
 
 void Level::Render(sf::RenderWindow *window)
 {
-
+	for each (TileRow r in mTileMap)
+	{
+		for each (Tile *t in r)
+		{
+			t->Render(window);
+		}
+	}
 }
 
 void Level::InternalClear()

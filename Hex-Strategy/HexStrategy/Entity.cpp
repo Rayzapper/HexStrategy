@@ -1,8 +1,10 @@
 #include "Entity.h"
+#include "TextureManager.h"
 
 Entity::Entity(int textureID)
 {
-	mTexture = mTextureManager->GetTexture(textureID);
+	mTexture = TextureManager::GetInstance().GetTexture(textureID);
+	mSprite.setTexture(*mTexture);
 }
 
 Entity::~Entity()
@@ -10,8 +12,8 @@ Entity::~Entity()
 
 }
 
-void Entity::Initialize()
+void Entity::ChangeTexture(int textureID)
 {
-	TextureManager &textureManager = TextureManager::GetInstance();
-	mTextureManager = &textureManager;
+	mTexture = TextureManager::GetInstance().GetTexture(textureID);
+	mSprite.setTexture(*mTexture);
 }

@@ -1,8 +1,11 @@
 #include "Tile.h"
 
-Tile::Tile(int textureID, GridVector gridPosition)
+const static int tileSize = 32;
+
+Tile::Tile(int textureID, GridVector gridPosition, TileType tileType)
 	: Entity(textureID),
-	mGridPosition(gridPosition)
+	mGridPosition(gridPosition),
+	mTileType(tileType)
 {
 
 }
@@ -14,7 +17,7 @@ Tile::~Tile()
 
 void Tile::Update()
 {
-
+	
 }
 
 void Tile::Render(sf::RenderWindow *window)

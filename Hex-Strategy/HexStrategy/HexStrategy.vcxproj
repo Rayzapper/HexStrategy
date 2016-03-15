@@ -165,9 +165,11 @@
     <ClCompile Include="GridVector.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="SplashState.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TitleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
@@ -176,9 +178,11 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="PlayState.h" />
     <ClInclude Include="SplashState.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TitleState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
