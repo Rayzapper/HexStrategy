@@ -21,7 +21,7 @@ void MenuState::UnloadContent()
 
 }
 
-void MenuState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
+void MenuState::Update(sf::Vector2f mouseWorldPos)
 {
 
 }

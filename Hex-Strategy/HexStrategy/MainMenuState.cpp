@@ -3,8 +3,16 @@
 #include "Button.h"
 #include <cassert>
 
-typedef vector<Button> ButtonVector;
-ButtonVector buttonVector;
+typedef vector<Entity*> EntityVector;
+EntityVector mainButtonVector, optionsButtonVector;
+
+enum SubMenu
+{
+	MAIN,
+	OPTIONS
+};
+
+SubMenu subMenu = MAIN;
 
 MainMenuState::MainMenuState(GameStateManager *stateManager)
 	: GameState(stateManager)
@@ -14,7 +22,7 @@ MainMenuState::MainMenuState(GameStateManager *stateManager)
 
 MainMenuState::~MainMenuState()
 {
-
+	
 }
 
 void MainMenuState::LoadContent()
@@ -22,40 +30,58 @@ void MainMenuState::LoadContent()
 	if (!mMenuButtonFont.loadFromFile("Resources/Fonts/calibri.ttf"))
 		cout << "Could not find font calibri.ttf" << endl;
 
-	buttonVector.push_back(Button(sf::IntRect(100, 100, 600, 100), "Play", &mMenuButtonFont));
-	buttonVector.push_back(Button(sf::IntRect(100, 250, 600, 100), "Options", &mMenuButtonFont));
-	buttonVector.push_back(Button(sf::IntRect(100, 400, 600, 100), "Quit", &mMenuButtonFont));
+	mainButtonVector.push_back(new Button(sf::IntRect(100, 100, 600, 100), "Play", &mMenuButtonFont));
+	mainButtonVector.push_back(new Button(sf::IntRect(100, 250, 600, 100), "Options", &mMenuButtonFont));
+	mainButtonVector.push_back(new Button(sf::IntRect(100, 400, 600, 100), "Quit", &mMenuButtonFont));
+
+	optionsButtonVector.push_back(new Button(sf::IntRect(100, 100, 600, 100), "Back", &mMenuButtonFont));
 }
 
 void MainMenuState::UnloadContent()
 {
-	
+	while (!mainButtonVector.empty())
+	{
+		delete mainButtonVector.back();
+		mainButtonVector.pop_back();
+	}
 }
 
-void MainMenuState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
+void MainMenuState::Update(sf::Vector2f mouseWorldPos)
 {
-	for each (Button b in buttonVector)
+	EntityVector *entityVector;
+	if (subMenu == MAIN)
+		entityVector = &mainButtonVector;
+	else
+		entityVector = &optionsButtonVector;
+	for each (Entity *e in *entityVector)
 	{
-		b.UpdateMousePosition(mouseWindowPos);
-		b.Update();
-	}
-	for each (Button b in buttonVector)
-	{
-		if (b.GetPressed())
+		if (Button *b = dynamic_cast<Button*>(e))
 		{
-			string buttonString = b.GetButtonString();
-			if (buttonString == "Play")
+			b->Update(mouseWorldPos);
+			if (b->GetClicked())
 			{
-				GameState *state = new PlayState(mGameStateManager, "TestLevel");
-				ChangeState(state);
-			}
-			else if (buttonString == "Options")
-			{
-
-			}
-			else if (buttonString == "Quit")
-			{
-
+				string buttonString = b->GetButtonString();
+				if (buttonString == "Play")
+				{
+					GameState *state = new PlayState(mGameStateManager, "TestLevel");
+					ChangeState(state);
+					break;
+				}
+				else if (buttonString == "Options")
+				{
+					subMenu = OPTIONS;
+					break;
+				}
+				else if (buttonString == "Quit")
+				{
+					mWindow->close();
+					break;
+				}
+				else if (buttonString == "Back")
+				{
+					subMenu = MAIN;
+					break;
+				}
 			}
 		}
 	}
@@ -63,6 +89,11 @@ void MainMenuState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowP
 
 void MainMenuState::Render(sf::RenderWindow *window)
 {
-	for each (Button b in buttonVector)
-		b.Render(window);
+	mWindow = window;
+	if (subMenu == MAIN)
+		for each (Button *b in mainButtonVector)
+			b->Render(window);
+	else if (subMenu == OPTIONS)
+		for each (Button *b in optionsButtonVector)
+			b->Render(window);
 }

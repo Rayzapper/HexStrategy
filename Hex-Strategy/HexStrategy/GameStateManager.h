@@ -16,7 +16,7 @@ public:
 
 	void Initialize();
 	void LoadContent();
-	void Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos);
+	void Update(sf::Vector2f mouseWorldPos);
 	void Render(sf::RenderWindow *window);
 
 	void PushState(GameState *state);

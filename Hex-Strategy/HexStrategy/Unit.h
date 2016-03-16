@@ -6,13 +6,14 @@
 class Unit : public Entity
 {
 public:
-	Unit(int textureID);
+	Unit(int textureID, GridVector gridVector);
 	~Unit();
-	virtual void Update();
+	virtual void Update(sf::Vector2f mouseWorldPos);
 	virtual void Render(sf::RenderWindow *window);
 	void SetGridPosition(GridVector position);
 	GridVector GetGridPosition() const;
-private:
+protected:
+	int mTileSize = 32;
 	GridVector mGridVector;
 };
 

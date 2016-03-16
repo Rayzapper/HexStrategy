@@ -11,7 +11,7 @@ public:
 	// No Texture version
 	UIElement();
 	virtual ~UIElement();
-	virtual void Update();
+	virtual void Update(sf::Vector2f mouseWorldPos);
 	virtual void Render(sf::RenderWindow *window);
 };
 

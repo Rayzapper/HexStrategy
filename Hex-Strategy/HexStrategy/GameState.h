@@ -15,7 +15,7 @@ public:
 	virtual ~GameState();
 	virtual void LoadContent() = 0;
 	virtual void UnloadContent() = 0;
-	virtual void Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos) = 0;
+	virtual void Update(sf::Vector2f mouseWorldPos) = 0;
 	virtual void Render(sf::RenderWindow *window) = 0;
 	void ChangeState(GameState *state);
 protected:

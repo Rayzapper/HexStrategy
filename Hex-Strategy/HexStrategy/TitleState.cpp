@@ -58,7 +58,7 @@ void TitleState::UnloadContent()
 
 }
 
-void TitleState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
+void TitleState::Update(sf::Vector2f mouseWorldPos)
 {
 	if (fadein)
 	{

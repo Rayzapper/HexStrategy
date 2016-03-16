@@ -4,6 +4,8 @@
 #include <SFML\Graphics.hpp>
 #include "GridVector.h"
 
+using namespace std;
+
 class Entity
 {
 public:
@@ -12,7 +14,7 @@ public:
 	// No Texture version
 	Entity();
 	virtual ~Entity();
-	virtual void Update() = 0;
+	virtual void Update(sf::Vector2f mouseWorldPos) = 0;
 	virtual void Render(sf::RenderWindow *window) = 0;
 	void ChangeTexture(int textureID);
 protected:

@@ -27,8 +27,7 @@ class Tile : public Entity
 public:
 	Tile(int textureID, GridVector gridPosition, TileType tileType);
 	virtual ~Tile();
-	void UpdateMouse(sf::Vector2i mouseWorldPos);
-	virtual void Update();
+	virtual void Update(sf::Vector2f mouseWorldPos);
 	virtual void Render(sf::RenderWindow *window);
 	void SetTileType(TileType type);
 	void SetTerrainType(TerrainType type);

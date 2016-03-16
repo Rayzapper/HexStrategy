@@ -13,10 +13,11 @@ public:
 	typedef std::vector<TileRow> TileMap;
 	void Update(sf::Vector2f mouseWorldPos);
 	void Render(sf::RenderWindow *window);
+	GridVector GetMouseoverPosition();
 private:
 	void InternalClear();
 	TileMap mTileMap;
-	GridVector mMapSize;
+	GridVector mMapSize, mMouseoverPosition;
 };
 
 #endif

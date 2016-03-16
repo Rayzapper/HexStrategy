@@ -10,7 +10,7 @@ public:
 	virtual ~TitleState();
 	virtual void LoadContent();
 	virtual void UnloadContent();
-	virtual void Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos);
+	virtual void Update(sf::Vector2f mouseWorldPos);
 	virtual void Render(sf::RenderWindow *window);
 };
 

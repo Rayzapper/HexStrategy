@@ -4,13 +4,13 @@
 Level::Level(GridVector mapSize)
 	: mMapSize(mapSize)
 {
-	for (int x = 0; x < mapSize.GetX(); x++)
+	for (int x = 0; x < mapSize.x; x++)
 	{
 		TileRow collumn;
-		for (int y = 0; y < mapSize.GetY(); y++)
+		for (int y = 0; y < mapSize.y; y++)
 		{
 			TileType tileType = FLOOR;
-			if (y == 0 || x == 0 || y == mapSize.GetY() - 1 || x == mapSize.GetX() - 1)
+			if (y == 0 || x == 0 || y == mapSize.y - 1 || x == mapSize.x - 1)
 				tileType = WALL;
 			else if (y % 4 == 2 && x % 4 == 2)
 				tileType = HOLE;
@@ -75,8 +75,9 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 	{
 		for each (Tile *t in r)
 		{
-			t->UpdateMouse(sf::Vector2i(mouseWorldPos));
-			t->Update();
+			t->Update(mouseWorldPos);
+			if (t->GetMouseover())
+				mMouseoverPosition = t->GetGridPosition();
 		}
 	}
 }
@@ -90,6 +91,11 @@ void Level::Render(sf::RenderWindow *window)
 			t->Render(window);
 		}
 	}
+}
+
+GridVector Level::GetMouseoverPosition()
+{
+	return mMouseoverPosition;
 }
 
 void Level::InternalClear()

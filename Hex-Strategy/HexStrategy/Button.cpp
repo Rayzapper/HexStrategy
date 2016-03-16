@@ -23,14 +23,14 @@ Button::~Button()
 	
 }
 
-void Button::Update()
+void Button::Update(sf::Vector2f mouseWorldPos)
 {
-	mMouseOver = mHitBox.contains(mMouseWindowPosition);
-}
-
-void Button::UpdateMousePosition(sf::Vector2i mouseWindowPos)
-{
-	mMouseWindowPosition = mouseWindowPos;
+	mMouseWorldPosition = sf::Vector2i(mouseWorldPos);
+	mMouseOver = mHitBox.contains(mMouseWorldPosition);
+	if (mMouseOver && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		mPressed = true;
+	if (mMouseOver && sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+		mRightPressed = true;
 }
 
 void Button::Render(sf::RenderWindow *window)
@@ -45,12 +45,24 @@ void Button::SetFont(sf::Font *font)
 	mButtonText.setFont(*mFont);
 }
 
-bool Button::GetPressed() const
+bool Button::GetClicked()
 {
-	if (mMouseOver)
-		return sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
-	else
-		return false;
+	bool clicked = false;
+	if (mMouseOver && mPressed)
+		clicked = !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+	if (clicked || !mMouseOver)
+		mPressed = false;
+	return clicked;
+}
+
+bool Button::GetRightClicked()
+{
+	bool clicked = false;
+	if (mMouseOver && mRightPressed && !mPressed)
+		clicked = !sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
+	if (clicked || !mMouseOver)
+		mRightPressed = false;
+	return clicked;
 }
 
 std::string Button::GetButtonString() const

@@ -24,12 +24,12 @@ void GameStateManager::LoadContent()
 	stateStack.top()->LoadContent();
 }
 
-void GameStateManager::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
+void GameStateManager::Update(sf::Vector2f mouseWorldPos)
 {
 	if (stateStack.top() == nullptr)
 		stateStack.pop();
 	assert(!stateStack.empty());
-	stateStack.top()->Update(mouseWorldPos, mouseWindowPos);
+	stateStack.top()->Update(mouseWorldPos);
 }
 
 void GameStateManager::Render(sf::RenderWindow *window)

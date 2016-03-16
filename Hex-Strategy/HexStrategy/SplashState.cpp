@@ -27,7 +27,7 @@ void SplashState::UnloadContent()
 	
 }
 
-void SplashState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
+void SplashState::Update(sf::Vector2f mouseWorldPos)
 {
 	int time = mClock.getElapsedTime().asSeconds();
 	if (time >= 3)

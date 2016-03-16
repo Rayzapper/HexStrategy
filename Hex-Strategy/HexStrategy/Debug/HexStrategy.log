@@ -1,5 +1,2 @@
-﻿  Button.cpp
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  LINK : C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\HexStrategy\Hex-Strategy\Debug\HexStrategy.exe not found or not built by the last incremental link; performing full link
+﻿  MainMenuState.cpp
   HexStrategy.vcxproj -> C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\HexStrategy\Hex-Strategy\Debug\HexStrategy.exe

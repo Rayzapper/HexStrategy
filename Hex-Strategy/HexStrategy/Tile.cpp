@@ -7,8 +7,8 @@ Tile::Tile(int textureID, GridVector gridPosition, TileType tileType)
 	mGridPosition(gridPosition),
 	mTileType(tileType)
 {
-	mRenderPosition.x = gridPosition.GetX() * tileSize;
-	mRenderPosition.y = gridPosition.GetY() * tileSize / 2;
+	mRenderPosition.x = gridPosition.x * tileSize;
+	mRenderPosition.y = gridPosition.y * tileSize / 2;
 	mSprite.setPosition(mRenderPosition);
 	if (mTileType == FLOOR)
 		mSprite.setTextureRect(sf::IntRect(tileSize, 0, tileSize, tileSize));
@@ -28,14 +28,9 @@ Tile::~Tile()
 
 }
 
-void Tile::UpdateMouse(sf::Vector2i mouseWorldPos)
+void Tile::Update(sf::Vector2f mouseWorldPos)
 {
-	mMouseWorldPosition = mouseWorldPos;
-}
-
-void Tile::Update()
-{
-	
+	mMouseWorldPosition = sf::Vector2i(mouseWorldPos);
 }
 
 void Tile::Render(sf::RenderWindow *window)
