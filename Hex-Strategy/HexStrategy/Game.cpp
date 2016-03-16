@@ -9,6 +9,7 @@ static const int tileSize = 32;
 
 static int windowWidth = 800, windowHeight = 600;
 static bool focus = true;
+static sf::Vector2i mousePosition;
 
 static sf::RenderWindow *window;
 static sf::View *mainView, *uiView;
@@ -49,7 +50,10 @@ void Game::Run()
 		}
 		if (focus)
 		{
-			GameStateManager::GetInstance().Update();
+			mousePosition = sf::Mouse::getPosition(*window);
+			sf::Vector2f mouseWorldPosition = window->mapPixelToCoords(mousePosition, *mainView);
+			
+			GameStateManager::GetInstance().Update(mouseWorldPosition, mousePosition);
 			window->clear();
 			GameStateManager::GetInstance().Render(window);
 			window->display();

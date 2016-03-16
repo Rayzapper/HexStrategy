@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\GameStates">
+      <UniqueIdentifier>{e285351e-5742-473a-9553-d77f82d31968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStates">
+      <UniqueIdentifier>{6f80b9f7-d1a3-42fd-8e9f-965c1a2a5f51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Managers">
+      <UniqueIdentifier>{cc826053-d9ee-4166-950d-3a5400cd33ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Managers">
+      <UniqueIdentifier>{157fdbe5-bcd7-43de-b9f3-8b8aa8e3e0fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{5c8394c9-f5fe-45f6-bd3e-686f14f763f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{7e10a7b6-05a1-4b80-b8d9-4b25e74d154c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -24,32 +42,44 @@
     <ClCompile Include="GridVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameStateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SplashState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="TitleState.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Source Files\GameStates</Filter>
     </ClCompile>
     <ClCompile Include="PlayState.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashState.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleState.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>Source Files\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,32 +89,47 @@
     <ClInclude Include="GridVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameStateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SplashState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="TitleState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameStates</Filter>
     </ClInclude>
     <ClInclude Include="PlayState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Header Files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>Header Files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

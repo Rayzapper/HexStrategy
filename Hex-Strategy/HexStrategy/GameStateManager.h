@@ -4,6 +4,7 @@
 #include <stack>
 #include "SplashState.h"
 #include "TitleState.h"
+#include "PlayState.h"
 
 class GameStateManager
 {
@@ -15,7 +16,7 @@ public:
 
 	void Initialize();
 	void LoadContent();
-	void Update();
+	void Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos);
 	void Render(sf::RenderWindow *window);
 
 	void PushState(GameState *state);

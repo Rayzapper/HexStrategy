@@ -1,5 +1,10 @@
 #include "GridVector.h"
 
+GridVector::GridVector()
+{
+
+}
+
 GridVector::GridVector(int x, int y)
 	: mX(x), mY(y)
 {

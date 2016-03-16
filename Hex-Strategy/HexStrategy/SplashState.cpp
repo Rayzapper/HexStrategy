@@ -2,7 +2,8 @@
 #include "TitleState.h"
 #include <iostream>
 
-SplashState::SplashState()
+SplashState::SplashState(GameStateManager *stateManager)
+	: GameState(stateManager)
 {
 	
 }
@@ -26,13 +27,13 @@ void SplashState::UnloadContent()
 	
 }
 
-void SplashState::Update(GameStateManager *stateManager)
+void SplashState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
 {
 	int time = mClock.getElapsedTime().asSeconds();
 	if (time >= 3)
 	{
-		GameState *state = new TitleState();
-		ChangeState(stateManager, state);
+		GameState *state = new TitleState(mGameStateManager);
+		ChangeState(state);
 	}
 }
 

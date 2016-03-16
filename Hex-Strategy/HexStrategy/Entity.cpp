@@ -7,6 +7,11 @@ Entity::Entity(int textureID)
 	mSprite.setTexture(*mTexture);
 }
 
+Entity::Entity()
+{
+
+}
+
 Entity::~Entity()
 {
 

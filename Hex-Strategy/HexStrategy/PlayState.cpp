@@ -1,7 +1,10 @@
 #include "PlayState.h"
 #include <iostream>
 
-PlayState::PlayState(string levelName)
+Tile *selectedTile;
+
+PlayState::PlayState(GameStateManager *stateManager, string levelName)
+	: GameState(stateManager)
 {
 	
 }
@@ -23,7 +26,7 @@ void PlayState::UnloadContent()
 	
 }
 
-void PlayState::Update(GameStateManager *stateManager)
+void PlayState::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
 {
 	currentLevel->Update();
 }

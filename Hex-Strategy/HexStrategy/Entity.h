@@ -2,11 +2,13 @@
 #define ENTITY_H
 
 #include <SFML\Graphics.hpp>
+#include "GridVector.h"
 
 class Entity
 {
 public:
 	Entity(int textureID);
+	Entity();
 	virtual ~Entity();
 	virtual void Update() = 0;
 	virtual void Render(sf::RenderWindow *window) = 0;

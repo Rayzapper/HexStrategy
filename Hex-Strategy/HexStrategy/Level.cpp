@@ -12,11 +12,16 @@ Level::Level(GridVector mapSize)
 			TileType tileType = FLOOR;
 			if (y == 0 || x == 0 || y == mapSize.GetY() - 1 || x == mapSize.GetX() - 1)
 				tileType = WALL;
+			else if (y % 4 == 2 && x % 4 == 2)
+				tileType = HOLE;
+			else if (x == 8 && (y > 9 || y < 8))
+				tileType = WALL;
 			Tile *tile = new Tile(0, GridVector(x, y * 2 + (x % 2)), tileType);
 			collumn.push_back(tile);
 		}
 		mTileMap.push_back(collumn);
 	}
+
 	for (TileMap::size_type x = 0; x < mTileMap.size(); x++)
 	{
 		for (TileRow::size_type y = 0; y < mTileMap[x].size(); y++)

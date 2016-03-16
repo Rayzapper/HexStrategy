@@ -6,15 +6,12 @@
 class TitleState : public GameState
 {
 public:
-	TitleState();
+	TitleState(GameStateManager *stateManager);
 	virtual ~TitleState();
 	virtual void LoadContent();
 	virtual void UnloadContent();
-	virtual void Update(GameStateManager *stateManager);
+	virtual void Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos);
 	virtual void Render(sf::RenderWindow *window);
-private:
-	sf::Text titleText;
-	sf::Font titleFont;
 };
 
 #endif

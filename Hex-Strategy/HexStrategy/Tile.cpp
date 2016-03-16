@@ -67,3 +67,8 @@ std::vector<Tile*> Tile::GetNeighbors() const
 {
 	return mNeighbors;
 }
+
+bool Tile::GetMouseover() const
+{
+	return true;
+}

@@ -1,4 +1,7 @@
 #include "TextureManager.h"
+#include <iostream>
+
+using namespace std;
 
 TextureManager& TextureManager::GetInstance()
 {
@@ -16,6 +19,8 @@ sf::Texture* TextureManager::GetTexture(int textureID)
 
 TextureManager::TextureManager()
 {
-	mTileTexture.loadFromFile("Resources/Graphics/Tiles_spritesheet.png");
-	mMercenaryTexture.loadFromFile("Resources/Graphics/Mercenary_spritesheet.png");
+	if (!mTileTexture.loadFromFile("Resources/Graphics/Tiles_spritesheet.png"))
+		cout << "Could not find image Tiles_spritesheet.png." << endl;
+	if (!mMercenaryTexture.loadFromFile("Resources/Graphics/Mercenary_spritesheet.png"))
+		cout << "Could not find image Mercenary_spritesheet.png." << endl;
 }

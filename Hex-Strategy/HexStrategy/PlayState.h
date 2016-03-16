@@ -7,11 +7,11 @@
 class PlayState : public GameState
 {
 public:
-	PlayState(string levelName);
+	PlayState(GameStateManager *stateManager, string levelName);
 	virtual ~PlayState();
 	virtual void LoadContent();
 	virtual void UnloadContent();
-	virtual void Update(GameStateManager *stateManager);
+	virtual void Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos);
 	virtual void Render(sf::RenderWindow *window);
 	void SwitchLevel(Level *level);
 private:

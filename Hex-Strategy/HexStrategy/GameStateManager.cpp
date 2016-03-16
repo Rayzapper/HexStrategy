@@ -1,7 +1,7 @@
 #include "GameStateManager.h"
 #include <cassert>
 
-GameStateManager::GameStates stateStack;
+static GameStateManager::GameStates stateStack;
 
 GameStateManager::~GameStateManager()
 {
@@ -16,7 +16,7 @@ GameStateManager& GameStateManager::GetInstance()
 
 void GameStateManager::Initialize()
 {
-	stateStack.push(new SplashState());
+	stateStack.push(new TitleState(this));
 }
 
 void GameStateManager::LoadContent()
@@ -24,12 +24,12 @@ void GameStateManager::LoadContent()
 	stateStack.top()->LoadContent();
 }
 
-void GameStateManager::Update()
+void GameStateManager::Update(sf::Vector2f mouseWorldPos, sf::Vector2i mouseWindowPos)
 {
 	if (stateStack.top() == nullptr)
 		stateStack.pop();
 	assert(!stateStack.empty());
-	stateStack.top()->Update(this);
+	stateStack.top()->Update(mouseWorldPos, mouseWindowPos);
 }
 
 void GameStateManager::Render(sf::RenderWindow *window)

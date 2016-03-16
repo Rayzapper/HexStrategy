@@ -2,7 +2,6 @@
 #define TILE_H
 
 #include "Entity.h"
-#include "GridVector.h"
 
 enum TileType
 {
@@ -37,6 +36,7 @@ public:
 	TileType GetTileType() const;
 	TerrainType GetTerrainType() const;
 	std::vector<Tile*> GetNeighbors() const;
+	bool GetMouseover() const;
 private:
 	GridVector mGridPosition;
 	TileType mTileType;

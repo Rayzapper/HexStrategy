@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -165,24 +166,32 @@
     <ClCompile Include="GridVector.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="SplashState.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TitleState.cpp" />
+    <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GridVector.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MenuState.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="SplashState.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TitleState.h" />
+    <ClInclude Include="UIElement.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

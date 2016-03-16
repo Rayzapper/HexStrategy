@@ -4,6 +4,7 @@
 class GridVector
 {
 public:
+	GridVector();
 	GridVector(int x, int y);
 	GridVector& operator=(const GridVector &gridVector);
 	GridVector& operator+(const GridVector &gridVector);

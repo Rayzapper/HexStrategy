@@ -12,6 +12,7 @@ private:
 	TextureManager();													//Singleton
 	TextureManager(const TextureManager &textureManager);				//Singleton
 	TextureManager& operator=(const TextureManager &textureManager);	//Singleton
+
 	sf::Texture mTileTexture, mMercenaryTexture;
 };
 
