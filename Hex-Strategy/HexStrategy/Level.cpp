@@ -69,12 +69,13 @@ Level::~Level()
 	InternalClear();
 }
 
-void Level::Update()
+void Level::Update(sf::Vector2f mouseWorldPos)
 {
 	for each (TileRow r in mTileMap)
 	{
 		for each (Tile *t in r)
 		{
+			t->UpdateMouse(sf::Vector2i(mouseWorldPos));
 			t->Update();
 		}
 	}

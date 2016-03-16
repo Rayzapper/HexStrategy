@@ -11,7 +11,7 @@ public:
 	~Level();
 	typedef std::vector<Tile*> TileRow;
 	typedef std::vector<TileRow> TileMap;
-	void Update();
+	void Update(sf::Vector2f mouseWorldPos);
 	void Render(sf::RenderWindow *window);
 private:
 	void InternalClear();

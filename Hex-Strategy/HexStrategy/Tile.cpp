@@ -16,11 +16,21 @@ Tile::Tile(int textureID, GridVector gridPosition, TileType tileType)
 		mSprite.setTextureRect(sf::IntRect(tileSize * 2, 0, tileSize, tileSize));
 	else if (mTileType == HOLE)
 		mSprite.setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));
+
+	mHitBox.height = tileSize;
+	mHitBox.width = tileSize;
+	mHitBox.left = mRenderPosition.x;
+	mHitBox.top = mRenderPosition.y;
 }
 
 Tile::~Tile()
 {
 
+}
+
+void Tile::UpdateMouse(sf::Vector2i mouseWorldPos)
+{
+	mMouseWorldPosition = mouseWorldPos;
 }
 
 void Tile::Update()
@@ -70,5 +80,5 @@ std::vector<Tile*> Tile::GetNeighbors() const
 
 bool Tile::GetMouseover() const
 {
-	return true;
+	return mHitBox.contains(mMouseWorldPosition);
 }

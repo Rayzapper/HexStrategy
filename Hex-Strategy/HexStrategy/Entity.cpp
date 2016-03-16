@@ -19,6 +19,6 @@ Entity::~Entity()
 
 void Entity::ChangeTexture(int textureID)
 {
-	mTexture = TextureManager::GetInstance().GetTexture(textureID);
-	mSprite.setTexture(*mTexture);
+	sf::Texture *texture = TextureManager::GetInstance().GetTexture(textureID);
+	mSprite.setTexture(*texture);
 }

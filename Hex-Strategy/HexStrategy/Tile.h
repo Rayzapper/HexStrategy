@@ -27,6 +27,7 @@ class Tile : public Entity
 public:
 	Tile(int textureID, GridVector gridPosition, TileType tileType);
 	virtual ~Tile();
+	void UpdateMouse(sf::Vector2i mouseWorldPos);
 	virtual void Update();
 	virtual void Render(sf::RenderWindow *window);
 	void SetTileType(TileType type);
@@ -38,10 +39,12 @@ public:
 	std::vector<Tile*> GetNeighbors() const;
 	bool GetMouseover() const;
 private:
+	sf::IntRect mHitBox;
 	GridVector mGridPosition;
 	TileType mTileType;
 	TerrainType mTerrainType = PLAIN;
 	std::vector<Tile*> mNeighbors;
+	sf::Vector2i mMouseWorldPosition;
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include <iostream>
 
 Button::Button(int textureID, sf::IntRect hitbox, std::string buttonText, sf::Font *font)
-	: Entity(textureID),
+	: UIElement(textureID),
 	mHitBox(hitbox),
 	mButtonString(buttonText),
 	mFont(font)

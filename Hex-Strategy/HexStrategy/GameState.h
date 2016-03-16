@@ -19,6 +19,7 @@ public:
 	virtual void Render(sf::RenderWindow *window) = 0;
 	void ChangeState(GameState *state);
 protected:
+	sf::Texture* GetTexture(int textureID) const;
 	GameStateManager *mGameStateManager;
 };
 

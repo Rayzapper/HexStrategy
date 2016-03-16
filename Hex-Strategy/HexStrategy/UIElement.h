@@ -7,16 +7,12 @@ class UIElement : public Entity
 {
 public:
 	// Texture version
-	Entity(int textureID);
-	Entity();
-	virtual ~Entity();
+	UIElement(int textureID);
+	// No Texture version
+	UIElement();
+	virtual ~UIElement();
 	virtual void Update();
 	virtual void Render(sf::RenderWindow *window);
-	void ChangeTexture(int textureID);
-protected:
-	sf::Vector2f mRenderPosition;
-	sf::Texture *mTexture;
-	sf::Sprite mSprite;
 };
 
 #endif

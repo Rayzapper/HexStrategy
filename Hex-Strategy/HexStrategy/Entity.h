@@ -7,7 +7,9 @@
 class Entity
 {
 public:
+	// Texture version
 	Entity(int textureID);
+	// No Texture version
 	Entity();
 	virtual ~Entity();
 	virtual void Update() = 0;
