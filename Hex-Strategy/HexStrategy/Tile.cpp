@@ -7,7 +7,15 @@ Tile::Tile(int textureID, GridVector gridPosition, TileType tileType)
 	mGridPosition(gridPosition),
 	mTileType(tileType)
 {
-
+	mRenderPosition.x = gridPosition.GetX() * tileSize;
+	mRenderPosition.y = gridPosition.GetY() * tileSize / 2;
+	mSprite.setPosition(mRenderPosition);
+	if (mTileType == FLOOR)
+		mSprite.setTextureRect(sf::IntRect(tileSize, 0, tileSize, tileSize));
+	else if (mTileType == WALL)
+		mSprite.setTextureRect(sf::IntRect(tileSize * 2, 0, tileSize, tileSize));
+	else if (mTileType == HOLE)
+		mSprite.setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));
 }
 
 Tile::~Tile()
@@ -22,7 +30,7 @@ void Tile::Update()
 
 void Tile::Render(sf::RenderWindow *window)
 {
-	
+	window->draw(mSprite);
 }
 
 void Tile::SetTileType(TileType type)
@@ -33,6 +41,11 @@ void Tile::SetTileType(TileType type)
 void Tile::SetTerrainType(TerrainType type)
 {
 	mTerrainType = type;
+}
+
+void Tile::SetNeighbor(Tile *neighbor)
+{
+	mNeighbors.push_back(neighbor);
 }
 
 GridVector Tile::GetGridPosition() const
@@ -48,4 +61,9 @@ TileType Tile::GetTileType() const
 TerrainType Tile::GetTerrainType() const
 {
 	return mTerrainType;
+}
+
+std::vector<Tile*> Tile::GetNeighbors() const
+{
+	return mNeighbors;
 }

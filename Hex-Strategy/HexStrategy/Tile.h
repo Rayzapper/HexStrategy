@@ -32,13 +32,16 @@ public:
 	virtual void Render(sf::RenderWindow *window);
 	void SetTileType(TileType type);
 	void SetTerrainType(TerrainType type);
+	void SetNeighbor(Tile *neighbor);
 	GridVector GetGridPosition() const;
 	TileType GetTileType() const;
 	TerrainType GetTerrainType() const;
+	std::vector<Tile*> GetNeighbors() const;
 private:
 	GridVector mGridPosition;
 	TileType mTileType;
 	TerrainType mTerrainType = PLAIN;
+	std::vector<Tile*> mNeighbors;
 };
 
 #endif

@@ -7,10 +7,11 @@
 static const string programName = "Hex Strategy";
 static const int tileSize = 32;
 
-static int windowWidth = 200, windowHeight = 200;
+static int windowWidth = 800, windowHeight = 600;
 static bool focus = true;
 
 static sf::RenderWindow *window;
+static sf::View *mainView, *uiView;
 
 Game::Game()
 {
@@ -26,6 +27,10 @@ void Game::Run()
 {
 	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), programName);
 	window->setFramerateLimit(60);
+	mainView = new sf::View(sf::Vector2f(windowWidth / 2, windowHeight / 2), sf::Vector2f(windowWidth, windowHeight));
+	uiView = new sf::View(sf::Vector2f(windowWidth / 2, windowHeight / 2), sf::Vector2f(windowWidth, windowHeight));
+
+	window->setView(*mainView);
 
 	GameStateManager::GetInstance().Initialize();
 	GameStateManager::GetInstance().LoadContent();
@@ -41,10 +46,6 @@ void Game::Run()
 				focus = true;
 			if (event.type == sf::Event::LostFocus)
 				focus = false;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-				GameStateManager::GetInstance().SwitchState(new SplashState());
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T))
-				GameStateManager::GetInstance().SwitchState(new TitleState());
 		}
 		if (focus)
 		{
@@ -63,7 +64,7 @@ void Game::Run()
 
 void Game::Initialize()
 {
-	Entity::Initialize();
+	
 }
 
 void Game::InternalClear()
