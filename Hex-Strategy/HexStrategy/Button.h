@@ -10,10 +10,13 @@ public:
 	Button(int textureID, sf::IntRect hitbox, std::string buttonText, sf::Font *font);
 	//No Texture version.
 	Button(sf::IntRect hitbox, std::string buttonText, sf::Font *font);
+	//No Graphic version.
+	Button(sf::IntRect hitbox);
 	virtual ~Button();
 	virtual void Update(sf::Vector2f mouseWorldPos);
 	virtual void Render(sf::RenderWindow *window);
 	void SetFont(sf::Font *font);
+	bool GetMouseover();
 	bool GetClicked();
 	bool GetRightClicked();
 	std::string GetButtonString() const;

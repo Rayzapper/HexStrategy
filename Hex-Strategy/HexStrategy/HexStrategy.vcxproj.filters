@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{7e10a7b6-05a1-4b80-b8d9-4b25e74d154c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entities\Units">
+      <UniqueIdentifier>{b3bb70d5-e841-4964-95f4-7acf52d530d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Units">
+      <UniqueIdentifier>{f27cde31-1c0e-4dae-bd2d-50fb4b19b1fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -72,9 +78,6 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="MenuState.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
@@ -83,6 +86,24 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="MercenaryUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="WyvernRiderUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="MageUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="BonewalkerSwordUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +143,6 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
@@ -133,6 +151,24 @@
     </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="MercenaryUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="WyvernRiderUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="MageUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="BonewalkerSwordUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

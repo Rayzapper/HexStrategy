@@ -18,6 +18,12 @@ Button::Button(sf::IntRect hitbox, std::string buttonText, sf::Font *font)
 	Setup();
 }
 
+Button::Button(sf::IntRect hitbox)
+	: mHitBox(hitbox)
+{
+
+}
+
 Button::~Button()
 {
 	
@@ -43,6 +49,11 @@ void Button::SetFont(sf::Font *font)
 {
 	mFont = font;
 	mButtonText.setFont(*mFont);
+}
+
+bool Button::GetMouseover()
+{
+	return mMouseOver;
 }
 
 bool Button::GetClicked()

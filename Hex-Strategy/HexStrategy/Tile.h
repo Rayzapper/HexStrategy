@@ -22,6 +22,8 @@ enum TerrainType
 	FOREST
 };
 
+class Button;
+
 class Tile : public Entity
 {
 public:
@@ -36,9 +38,11 @@ public:
 	TileType GetTileType() const;
 	TerrainType GetTerrainType() const;
 	std::vector<Tile*> GetNeighbors() const;
-	bool GetMouseover() const;
+	bool GetMouseover();
+	bool GetClicked();
+	bool GetRightClicked();
 private:
-	sf::IntRect mHitBox;
+	Button *mButton;
 	GridVector mGridPosition;
 	TileType mTileType;
 	TerrainType mTerrainType = PLAIN;

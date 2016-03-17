@@ -1,13 +1,18 @@
 #include "Unit.h"
+#include "Tile.h"
 
-Unit::Unit(int textureID, GridVector gridVector)
+Unit::Unit(int textureID, GridVector gridVector, int team)
 	: Entity(textureID),
-	mGridVector(gridVector)
+	mGridVector(gridVector),
+	mTeamNumber(team)
 {
-	int spriteSizeX = mTexture->getSize().x / 5, spriteSizeY = mTexture->getSize().y / 8;
-	mSprite.setOrigin(spriteSizeX / 2, spriteSizeY);
-	mSprite.setTextureRect(sf::IntRect(0, spriteSizeY, spriteSizeX, spriteSizeY));
-	mRenderPosition = sf::Vector2f(mGridVector.x * mTileSize, mGridVector.y * mTileSize / 2);
+	mSpriteSize.x = mTexture->getSize().x / 5;
+	mSpriteSize.y = mTexture->getSize().y / 8;
+	mSprite.setOrigin(mSpriteSize.x / 2, mSpriteSize.y);
+	mSprite.setTextureRect(sf::IntRect(mSpriteAnimationVector.x * mSpriteSize.x, mSpriteAnimationVector.y * mSpriteSize.y, mSpriteSize.x, mSpriteSize.y));
+	mRenderPosition = sf::Vector2f(mGridVector.x * mTileSize + mTileSize / 2, mGridVector.y * mTileSize / 2 + mTileSize);
+	mSprite.setPosition(mRenderPosition);
+	mSprite.setScale(2, 2);
 }
 
 Unit::~Unit()
@@ -17,17 +22,34 @@ Unit::~Unit()
 
 void Unit::Update(sf::Vector2f mouseWorldPos)
 {
-
+	if (mAnimationClock.getElapsedTime().asMilliseconds() >= 500)
+		if (mSubAnimationClock.getElapsedTime().asMilliseconds() >= 100)
+		{
+			mSubAnimationClock.restart();
+			mSpriteAnimationVector.y += mAnimationDirection;
+			if (mSpriteAnimationVector.y >= 3 || mSpriteAnimationVector.y <= 1)
+			{
+				mAnimationDirection *= -1;
+				mAnimationClock.restart();
+			}
+		}
+	mSprite.setTextureRect(sf::IntRect(mSpriteAnimationVector.x * mSpriteSize.x, mSpriteAnimationVector.y * mSpriteSize.y + mTeamNumber * mSpriteSize.y * 4, mSpriteSize.x, mSpriteSize.y));
 }
 
 void Unit::Render(sf::RenderWindow *window)
 {
-
+	window->draw(mSprite);
 }
 
 void Unit::SetGridPosition(GridVector position)
 {
 	mGridVector = position;
+}
+
+void Unit::SetCurrentTile(Tile *tile)
+{
+	mCurrentTile = tile;
+	SetGridPosition(tile->GetGridPosition());
 }
 
 GridVector Unit::GetGridPosition() const

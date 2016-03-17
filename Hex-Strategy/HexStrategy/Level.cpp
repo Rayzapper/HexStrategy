@@ -1,5 +1,10 @@
 #include "Level.h"
 #include <cassert>
+#include <iostream>
+#include "MercenaryUnit.h"
+#include "WyvernRiderUnit.h"
+#include "MageUnit.h"
+#include "BonewalkerSwordUnit.h"
 
 Level::Level(GridVector mapSize)
 	: mMapSize(mapSize)
@@ -62,6 +67,31 @@ Level::Level(GridVector mapSize)
 			}
 		}
 	}
+
+	MercenaryUnit *merc = new MercenaryUnit(GridVector(4, 8), 0);
+	merc->SetCurrentTile(mTileMap[4][4]);
+	mUnitVector.push_back(merc);
+
+	WyvernRiderUnit *wyvern = new WyvernRiderUnit(GridVector(15, 17), 0);
+	wyvern->SetCurrentTile(mTileMap[15][8]);
+	mUnitVector.push_back(wyvern);
+
+	MageUnit *mage = new MageUnit(GridVector(1, 7), 0);
+	mage->SetCurrentTile(mTileMap[1][3]);
+	mUnitVector.push_back(mage);
+
+	BonewalkerSwordUnit *skel1 = new BonewalkerSwordUnit(GridVector(19, 19), 0);
+	skel1->SetCurrentTile(mTileMap[19][9]);
+	mUnitVector.push_back(skel1);
+
+	BonewalkerSwordUnit *skel2 = new BonewalkerSwordUnit(GridVector(20, 18), 0);
+	skel2->SetCurrentTile(mTileMap[20][9]);
+	mUnitVector.push_back(skel2);
+
+	BonewalkerSwordUnit *skel3 = new BonewalkerSwordUnit(GridVector(19, 21), 0);
+	skel3->SetCurrentTile(mTileMap[19][10]);
+	mUnitVector.push_back(skel3);
+
 }
 
 Level::~Level()
@@ -78,7 +108,20 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 			t->Update(mouseWorldPos);
 			if (t->GetMouseover())
 				mMouseoverPosition = t->GetGridPosition();
+			GridVector gridVector = t->GetGridPosition();
+			if (t->GetClicked())
+			{
+				
+			}
+			if (t->GetRightClicked())
+			{
+				
+			}
 		}
+	}
+	for each (Unit *u in mUnitVector)
+	{
+		u->Update(mouseWorldPos);
 	}
 }
 
@@ -90,6 +133,10 @@ void Level::Render(sf::RenderWindow *window)
 		{
 			t->Render(window);
 		}
+	}
+	for each (Unit *u in mUnitVector)
+	{
+		u->Render(window);
 	}
 }
 
@@ -111,4 +158,10 @@ void Level::InternalClear()
 		mTileMap.pop_back();
 	}
 	assert(mTileMap.empty());
+	while (!mUnitVector.empty())
+	{
+		delete mUnitVector.back();
+		assert(mUnitVector.back() == nullptr);
+		mUnitVector.pop_back();
+	}
 }

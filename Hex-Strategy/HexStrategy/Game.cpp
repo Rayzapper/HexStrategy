@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "DebugManager.h"
+
 static const string programName = "Hex Strategy";
 static const int tileSize = 32;
 
@@ -13,9 +15,6 @@ static sf::Vector2i mousePosition;
 
 static sf::RenderWindow *window;
 static sf::View *mainView, *debugView;
-
-static sf::Font debugFont;
-static sf::Text debugText;
 
 Game::Game()
 {
@@ -36,12 +35,6 @@ void Game::Run()
 
 	window->setView(*mainView);
 
-	if (!debugFont.loadFromFile("Resources/Fonts/calibri.ttf"))
-		cout << "Could not find font calibri.ttf" << endl;
-	debugText.setFont(debugFont);
-	debugText.setCharacterSize(16);
-	debugText.setColor(sf::Color::Magenta);
-
 	GameStateManager::GetInstance().Initialize();
 	GameStateManager::GetInstance().LoadContent();
 	
@@ -59,15 +52,24 @@ void Game::Run()
 		}
 		if (focus)
 		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O))
+				DebugManager::GetInstance().debugMode = true;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+				DebugManager::GetInstance().debugMode = false;
+
 			mousePosition = sf::Mouse::getPosition(*window);
 			sf::Vector2f mouseWorldPosition = window->mapPixelToCoords(mousePosition, *mainView);
 			
 			GameStateManager::GetInstance().Update(mouseWorldPosition);
-			debugText.setString("Mouse World X = " + to_string(mouseWorldPosition.x) + "\nMouse World Y = " + to_string(mouseWorldPosition.y));
+			
+			DebugManager::GetInstance().SetDebugString("Mouse World X = " + to_string(mouseWorldPosition.x) +
+				"\nMouse World Y = " + to_string(mouseWorldPosition.y));
+
 			window->clear();
 			GameStateManager::GetInstance().Render(window);
 			window->setView(*debugView);
-			window->draw(debugText);
+			if (DebugManager::GetInstance().debugMode)
+				DebugManager::GetInstance().Render(window);
 			window->display();
 			window->setView(*mainView);
 		}

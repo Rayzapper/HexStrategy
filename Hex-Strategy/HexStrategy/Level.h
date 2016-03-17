@@ -3,14 +3,16 @@
 
 #include <vector>
 #include "Tile.h"
+#include "Unit.h"
 
 class Level
 {
 public:
 	Level(GridVector mapSize);
 	~Level();
-	typedef std::vector<Tile*> TileRow;
-	typedef std::vector<TileRow> TileMap;
+	typedef vector<Tile*> TileRow;
+	typedef vector<TileRow> TileMap;
+	typedef vector<Unit*> UnitVector;
 	void Update(sf::Vector2f mouseWorldPos);
 	void Render(sf::RenderWindow *window);
 	GridVector GetMouseoverPosition();
@@ -18,6 +20,7 @@ private:
 	void InternalClear();
 	TileMap mTileMap;
 	GridVector mMapSize, mMouseoverPosition;
+	UnitVector mUnitVector;
 };
 
 #endif

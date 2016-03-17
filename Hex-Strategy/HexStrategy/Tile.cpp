@@ -1,4 +1,5 @@
 #include "Tile.h"
+#include "Button.h"
 
 const static int tileSize = 32;
 
@@ -17,20 +18,18 @@ Tile::Tile(int textureID, GridVector gridPosition, TileType tileType)
 	else if (mTileType == HOLE)
 		mSprite.setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));
 
-	mHitBox.height = tileSize;
-	mHitBox.width = tileSize;
-	mHitBox.left = mRenderPosition.x;
-	mHitBox.top = mRenderPosition.y;
+	mButton = new Button(sf::IntRect(mRenderPosition.x, mRenderPosition.y, tileSize, tileSize));
 }
 
 Tile::~Tile()
 {
-
+	delete mButton;
 }
 
 void Tile::Update(sf::Vector2f mouseWorldPos)
 {
 	mMouseWorldPosition = sf::Vector2i(mouseWorldPos);
+	mButton->Update(mouseWorldPos);
 }
 
 void Tile::Render(sf::RenderWindow *window)
@@ -73,7 +72,17 @@ std::vector<Tile*> Tile::GetNeighbors() const
 	return mNeighbors;
 }
 
-bool Tile::GetMouseover() const
+bool Tile::GetMouseover()
 {
-	return mHitBox.contains(mMouseWorldPosition);
+	return mButton->GetMouseover();
+}
+
+bool Tile::GetClicked()
+{
+	return mButton->GetClicked();
+}
+
+bool Tile::GetRightClicked()
+{
+	return mButton->GetRightClicked();
 }

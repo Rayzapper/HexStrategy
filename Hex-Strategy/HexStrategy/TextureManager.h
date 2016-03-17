@@ -13,7 +13,17 @@ private:
 	TextureManager(const TextureManager &textureManager);				//Singleton
 	TextureManager& operator=(const TextureManager &textureManager);	//Singleton
 
-	sf::Texture mTileTexture, mMercenaryTexture, mSelectorBitTexture;
+	sf::Texture mTileTexture,
+		mMercenaryTexture,
+		mSelectorBitTexture,
+		mArcherTexture,
+		mFighterTexture,
+		mCavallierTexture,
+		mMageTexture,
+		mWyvernRiderTexture,
+		mBonewalkerSwordTexture,
+		mBonewalkerBowTexture,
+		mGargoyleTexture;
 };
 
 #endif
