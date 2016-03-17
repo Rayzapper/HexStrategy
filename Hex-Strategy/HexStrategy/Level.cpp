@@ -80,15 +80,15 @@ Level::Level(GridVector mapSize)
 	mage->SetCurrentTile(mTileMap[1][3]);
 	mUnitVector.push_back(mage);
 
-	BonewalkerSwordUnit *skel1 = new BonewalkerSwordUnit(GridVector(19, 19), 0);
+	BonewalkerSwordUnit *skel1 = new BonewalkerSwordUnit(GridVector(19, 19), 1);
 	skel1->SetCurrentTile(mTileMap[19][9]);
 	mUnitVector.push_back(skel1);
 
-	BonewalkerSwordUnit *skel2 = new BonewalkerSwordUnit(GridVector(20, 18), 0);
+	BonewalkerSwordUnit *skel2 = new BonewalkerSwordUnit(GridVector(20, 18), 1);
 	skel2->SetCurrentTile(mTileMap[20][9]);
 	mUnitVector.push_back(skel2);
 
-	BonewalkerSwordUnit *skel3 = new BonewalkerSwordUnit(GridVector(19, 21), 0);
+	BonewalkerSwordUnit *skel3 = new BonewalkerSwordUnit(GridVector(19, 21), 1);
 	skel3->SetCurrentTile(mTileMap[19][10]);
 	mUnitVector.push_back(skel3);
 

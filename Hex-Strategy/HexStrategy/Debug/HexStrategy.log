@@ -1,18 +1,2 @@
-﻿  Unit.cpp
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(11): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(13): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Level.cpp
-  Generating Code...
-  Compiling...
-  WyvernRiderUnit.cpp
-  MercenaryUnit.cpp
-  MageUnit.cpp
-  BonewalkerSwordUnit.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  PlayState.cpp
-  MainMenuState.cpp
-  GameStateManager.cpp
-  GameState.cpp
-  Game.cpp
+﻿  Level.cpp
   HexStrategy.vcxproj -> C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\HexStrategy\Hex-Strategy\Debug\HexStrategy.exe
