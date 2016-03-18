@@ -105,6 +105,9 @@
     <ClCompile Include="BonewalkerSwordUnit.cpp">
       <Filter>Source Files\Entities\Units</Filter>
     </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="BonewalkerSwordUnit.h">
       <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinder.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -172,6 +172,7 @@
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MercenaryUnit.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="SplashState.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MercenaryUnit.h" />
+    <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="SplashState.h" />
     <ClInclude Include="TextureManager.h" />

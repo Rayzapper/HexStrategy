@@ -1,5 +1,6 @@
 #include "Tile.h"
 #include "Button.h"
+#include <cassert>
 
 const static int tileSize = 32;
 
@@ -19,6 +20,9 @@ Tile::Tile(int textureID, GridVector gridPosition, TileType tileType)
 		mSprite.setTextureRect(sf::IntRect(0, 0, tileSize, tileSize));
 
 	mButton = new Button(sf::IntRect(mRenderPosition.x, mRenderPosition.y, tileSize, tileSize));
+
+	mTileHighlight.setSize(sf::Vector2f(tileSize, tileSize));
+	mTileHighlight.setPosition(mRenderPosition);
 }
 
 Tile::~Tile()
@@ -35,6 +39,8 @@ void Tile::Update(sf::Vector2f mouseWorldPos)
 void Tile::Render(sf::RenderWindow *window)
 {
 	window->draw(mSprite);
+	if (mHighlighted)
+		window->draw(mTileHighlight);
 }
 
 void Tile::SetTileType(TileType type)
@@ -49,7 +55,31 @@ void Tile::SetTerrainType(TerrainType type)
 
 void Tile::SetNeighbor(Tile *neighbor)
 {
+	assert(neighbor != nullptr);
 	mNeighbors.push_back(neighbor);
+}
+
+void Tile::SetInhabitant(Unit *unit)
+{
+	mInhabitant = unit;
+}
+
+void Tile::SetPathParent(Tile *tile)
+{
+	mPathParent = tile;
+}
+
+void Tile::SetPathValues(int gCost, int hCost)
+{
+	mPathValues.gCost = gCost;
+	mPathValues.hCost = hCost;
+	mPathValues.fCost = gCost + hCost;
+}
+
+void Tile::SetHighlight(sf::Color color, bool highlight)
+{
+	mTileHighlight.setFillColor(color);
+	mHighlighted = highlight;
 }
 
 GridVector Tile::GetGridPosition() const
@@ -72,6 +102,11 @@ std::vector<Tile*> Tile::GetNeighbors() const
 	return mNeighbors;
 }
 
+Unit* Tile::GetInhabitant() const
+{
+	return mInhabitant;
+}
+
 bool Tile::GetMouseover()
 {
 	return mButton->GetMouseover();
@@ -85,4 +120,24 @@ bool Tile::GetClicked()
 bool Tile::GetRightClicked()
 {
 	return mButton->GetRightClicked();
+}
+
+Tile* Tile::GetPathParent() const
+{
+	return mPathParent;
+}
+
+PathValues Tile::GetPathValues()
+{
+	return mPathValues;
+}
+
+vector<Tile*> Tile::GetPath(vector<Tile*> path)
+{
+	if (mPathParent != nullptr)
+	{
+		path = mPathParent->GetPath(path);
+		path.push_back(mPathParent);
+	}
+	return path;
 }

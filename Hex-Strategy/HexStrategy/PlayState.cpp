@@ -43,7 +43,7 @@ void PlayState::LoadContent()
 {
 	if (!playFont.loadFromFile("Resources/Fonts/calibri.ttf"))
 		cout << "Could not find font calibri.ttf" << endl;
-	currentLevel = new Level(GridVector(25, 18));
+	currentLevel = new Level(GridVector(25, 36));
 	selector.texture = GetTexture(2);
 	selector.sprite.setTexture(*selector.texture);
 	selector.sprite.setOrigin(tileSize / 2 + 4, tileSize / 2 + 4);

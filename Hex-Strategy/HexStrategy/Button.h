@@ -23,7 +23,7 @@ public:
 private:
 	void Setup();
 	sf::IntRect mHitBox;
-	bool mMouseOver, mPressed, mRightPressed;
+	bool mMouseOver = false, mPressed, mRightPressed;
 	sf::RectangleShape mShape;
 	sf::Font *mFont;
 	sf::Text mButtonText;
