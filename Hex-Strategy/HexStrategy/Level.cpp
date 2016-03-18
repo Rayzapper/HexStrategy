@@ -160,8 +160,13 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 					{
 						if (y < 0) y = 0;
 						if (y >= mTileMap.size()) break;
-						int x = gridVector.x - moveRange;
-						for (x; x < mTileMap[y].size(); x++)
+						int x = gridVector.x - moveRange, max = gridVector.x + moveRange;
+						if (max > mTileMap[0].size())
+						{
+							max = mTileMap[0].size();
+							if (max < mTileMap[1].size()) max = mTileMap[1].size();
+						}
+						for (x; x < max; x++)
 						{
 							if (x < 0) x = 0;
 							mTileMap[y][x]->SetHighlight(sf::Color(100, 100, 255, 127), true);

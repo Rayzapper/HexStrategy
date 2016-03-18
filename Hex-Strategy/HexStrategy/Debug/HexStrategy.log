@@ -9,5 +9,4 @@ c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\h
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(74): warning C4018: '<': signed/unsigned mismatch
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(76): warning C4018: '<': signed/unsigned mismatch
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(162): warning C4018: '>=': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(164): warning C4018: '<': signed/unsigned mismatch
   HexStrategy.vcxproj -> C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\HexStrategy\Hex-Strategy\Debug\HexStrategy.exe
