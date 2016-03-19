@@ -16,7 +16,7 @@ GameStateManager& GameStateManager::GetInstance()
 
 void GameStateManager::Initialize()
 {
-	stateStack.push(new TitleState(this));
+	stateStack.push(new PlayState(this, ""));
 }
 
 void GameStateManager::LoadContent()

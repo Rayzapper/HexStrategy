@@ -6,10 +6,10 @@
 
 class Tile;
 
-enum UnitType
+enum UnitClass
 {
 	INFANTRY,
-	MAGE,
+	CASTER,
 	CAVALRY,
 	FLIER
 };
@@ -17,6 +17,7 @@ enum UnitType
 class Unit : public Entity
 {
 public:
+	Unit();
 	Unit(int textureID, GridVector gridVector, int team);
 	~Unit();
 	virtual void Update(sf::Vector2f mouseWorldPos);
@@ -31,6 +32,7 @@ public:
 	void SetMovingRight(bool moving);
 	GridVector GetGridPosition() const;
 	int GetMovementRange() const;
+	Tile* GetCurrentTile() const;
 protected:
 	void SetBaseMovement();
 	static const int mTileSize = 32;
@@ -42,7 +44,7 @@ protected:
 	float mAnimationSpeed = 1.0;
 	sf::Clock mAnimationClock, mSubAnimationClock;
 	int mBaseMovementRange = 5;
-	vector<UnitType> mUnitTypes;
+	vector<UnitClass> mUnitClasses;
 };
 
 #endif

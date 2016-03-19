@@ -1,5 +1,10 @@
 #include "Unit.h"
 
+Unit::Unit()
+{
+
+}
+
 Unit::Unit(int textureID, GridVector gridVector, int team)
 	: Entity(textureID),
 	mGridVector(gridVector),
@@ -9,7 +14,7 @@ Unit::Unit(int textureID, GridVector gridVector, int team)
 	mSpriteSize.y = mTexture->getSize().y / 8;
 	mSprite.setOrigin(mSpriteSize.x / 2, mSpriteSize.y);
 	mSprite.setTextureRect(sf::IntRect(mSpriteAnimationVector.x * mSpriteSize.x, mSpriteAnimationVector.y * mSpriteSize.y, mSpriteSize.x, mSpriteSize.y));
-	mRenderPosition = sf::Vector2f(mGridVector.x * 2 * mTileSize + mTileSize / 2 + mTileSize * (mGridVector.y % 2), mGridVector.y * mTileSize / 2 + (mGridVector.x % 2) * 16 + mTileSize);
+	mRenderPosition = sf::Vector2f(mGridVector.x * mTileSize + mTileSize / 2, mGridVector.y * mTileSize / 2 + mTileSize);
 	mSprite.setPosition(mRenderPosition);
 	mSprite.setScale(2, 2);
 }
@@ -189,15 +194,20 @@ int Unit::GetMovementRange() const
 	return mBaseMovementRange;
 }
 
+Tile* Unit::GetCurrentTile() const
+{
+	return mCurrentTile;
+}
+
 void Unit::SetBaseMovement()
 {
-	for each (UnitType t in mUnitTypes)
+	for each (UnitClass c in mUnitClasses)
 	{
-		if (t == MAGE)
+		if (c == CASTER)
 			mBaseMovementRange--;
-		if (t == CAVALRY)
+		if (c == CAVALRY)
 			mBaseMovementRange += 2;
-		if (t == FLIER)
+		if (c == FLIER)
 			mBaseMovementRange++;
 	}
 }

@@ -60,10 +60,10 @@ void Game::Run()
 			mousePosition = sf::Mouse::getPosition(*window);
 			sf::Vector2f mouseWorldPosition = window->mapPixelToCoords(mousePosition, *mainView);
 			
-			GameStateManager::GetInstance().Update(mouseWorldPosition);
-			
 			DebugManager::GetInstance().SetDebugString("Mouse World X = " + to_string(mouseWorldPosition.x) +
 				"\nMouse World Y = " + to_string(mouseWorldPosition.y));
+
+			GameStateManager::GetInstance().Update(mouseWorldPosition);
 
 			window->clear();
 			GameStateManager::GetInstance().Render(window);

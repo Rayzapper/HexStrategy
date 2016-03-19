@@ -16,14 +16,12 @@ class Pathfinder
 {
 public:
 	Pathfinder();
-	Pathfinder(TileMap tileMap);
 	~Pathfinder();
 	void Update();
-	vector<Tile*> FindPath(GridVector start, GridVector target);
+	vector<Tile*> FindPath(Tile *start, Tile *target);
+	bool IsTherePath(Tile *start, Tile *target);
 	int GetDistanceCost(Tile *tile1, Tile *tile2);
 	int CheckPathLength(Tile *tile, int oldLength);
-private:
-	TileMap mLevelTileMap;
 };
 
 #endif

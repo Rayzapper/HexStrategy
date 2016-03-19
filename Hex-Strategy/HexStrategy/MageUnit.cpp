@@ -3,8 +3,8 @@
 MageUnit::MageUnit(GridVector gridVector, int team)
 	: Unit(6, gridVector, team)
 {
-	mUnitTypes.push_back(INFANTRY);
-	mUnitTypes.push_back(MAGE);
+	mUnitClasses.push_back(INFANTRY);
+	mUnitClasses.push_back(CASTER);
 	SetBaseMovement();
 }
 

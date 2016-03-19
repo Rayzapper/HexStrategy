@@ -46,6 +46,7 @@ public:
 	void SetInhabitant(Unit *unit);
 	void SetPathParent(Tile *tile);
 	void SetPathValues(int gCost, int hCost);
+	void SetHighlight(bool highlight);
 	void SetHighlight(sf::Color color, bool highlight);
 	GridVector GetGridPosition() const;
 	TileType GetTileType() const;

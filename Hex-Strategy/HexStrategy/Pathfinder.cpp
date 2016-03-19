@@ -6,11 +6,6 @@ Pathfinder::Pathfinder()
 {
 }
 
-Pathfinder::Pathfinder(TileMap tileMap)
-{
-	mLevelTileMap = tileMap;
-}
-
 Pathfinder::~Pathfinder()
 {
 
@@ -21,14 +16,14 @@ void Pathfinder::Update()
 	
 }
 
-vector<Tile*> Pathfinder::FindPath(GridVector start, GridVector target)
+vector<Tile*> Pathfinder::FindPath(Tile *start, Tile *target)
 {
 	vector<Tile*>
 		open,			//Nodes whose F cost has been calculated.
 		closed;			//Nodes that have been evaluated.
 	Tile *startTile, *targetTile;
-	startTile = mLevelTileMap->at(start.y)[start.x];
-	targetTile = mLevelTileMap->at(target.y)[target.x];
+	startTile = start;
+	targetTile = target;
 	startTile->SetPathValues(0, GetDistanceCost(startTile, targetTile));
 	open.push_back(startTile);
 	bool loop = true, failed = false;
@@ -82,29 +77,40 @@ vector<Tile*> Pathfinder::FindPath(GridVector start, GridVector target)
 	vector<Tile*> path;
 	if (failed)
 	{
-		for each (TileRow r in *mLevelTileMap)
+		for each (Tile *t in open)
 		{
-			for each (Tile *t in r)
-			{
-				t->SetPathParent(nullptr);
-				t->SetPathValues(0, 0);
-			}
+			t->SetPathParent(nullptr);
+			t->SetPathValues(0, 0);
+		}
+		for each (Tile *t in closed)
+		{
+			t->SetPathParent(nullptr);
+			t->SetPathValues(0, 0);
 		}
 		return path;
 	}
 	path = current->GetPath(path);
 	path.push_back(current);
 
-	for each (TileRow r in *mLevelTileMap)
+	for each (Tile *t in open)
 	{
-		for each (Tile *t in r)
-		{
-			t->SetPathParent(nullptr);
-			t->SetPathValues(0, 0);
-		}
+		t->SetPathParent(nullptr);
+		t->SetPathValues(0, 0);
+	}
+	for each (Tile *t in closed)
+	{
+		t->SetPathParent(nullptr);
+		t->SetPathValues(0, 0);
 	}
 
 	return path;
+}
+
+bool Pathfinder::IsTherePath(Tile *start, Tile *target)
+{
+	if (FindPath(start, target).size() == 0)
+		return false;
+	return true;
 }
 
 int Pathfinder::GetDistanceCost(Tile *tile1, Tile *tile2)
@@ -115,8 +121,6 @@ int Pathfinder::GetDistanceCost(Tile *tile1, Tile *tile2)
 	tile1Y = tile1->GetGridPosition().y;
 	tile2X = tile2->GetGridPosition().x;
 	tile2Y = tile2->GetGridPosition().y;
-	tile1X = tile1X * 2 + (tile1Y % 2);
-	tile2X = tile2X * 2 + (tile2Y % 2);
 
 	xDifference = abs(tile1X - tile2X);
 	yDifference = abs(tile1Y - tile2Y);

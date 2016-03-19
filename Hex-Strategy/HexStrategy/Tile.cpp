@@ -1,6 +1,7 @@
 #include "Tile.h"
 #include "Button.h"
 #include <cassert>
+#include <iostream>
 
 const static int tileSize = 32;
 
@@ -40,7 +41,9 @@ void Tile::Render(sf::RenderWindow *window)
 {
 	window->draw(mSprite);
 	if (mHighlighted)
+	{
 		window->draw(mTileHighlight);
+	}
 }
 
 void Tile::SetTileType(TileType type)
@@ -74,6 +77,11 @@ void Tile::SetPathValues(int gCost, int hCost)
 	mPathValues.gCost = gCost;
 	mPathValues.hCost = hCost;
 	mPathValues.fCost = gCost + hCost;
+}
+
+void Tile::SetHighlight(bool highlight)
+{
+	mHighlighted = highlight;
 }
 
 void Tile::SetHighlight(sf::Color color, bool highlight)

@@ -37,7 +37,7 @@ Level::Level(GridVector mapSize)
 		mTileMap.push_back(row);
 	}
 
-	mPathfinder = Pathfinder(&mTileMap);
+	mPathfinder = Pathfinder();
 
 	int evenRowSize = mTileMap[0].size();
 	int oddRowSize = mTileMap[1].size();
@@ -79,41 +79,15 @@ Level::Level(GridVector mapSize)
 		}
 	}
 
-	GridVector unitPlacementVector = GridVector(2, 8);
-	Unit *unit = new MercenaryUnit(GridVector(unitPlacementVector.x, unitPlacementVector.y), 0);
-	unit->SetCurrentTile(mTileMap[unitPlacementVector.y][unitPlacementVector.x]);
-	mTileMap[unitPlacementVector.y][unitPlacementVector.x]->SetInhabitant(unit);
-	mUnitVector.push_back(unit);
-
-	unitPlacementVector = GridVector(6, 19);
-	unit = new WyvernRiderUnit(GridVector(unitPlacementVector.x, unitPlacementVector.y), 0);
-	unit->SetCurrentTile(mTileMap[unitPlacementVector.y][unitPlacementVector.x]);
-	mTileMap[unitPlacementVector.y][unitPlacementVector.x]->SetInhabitant(unit);
-	mUnitVector.push_back(unit);
-
-	unitPlacementVector = GridVector(0, 9);
-	unit = new MageUnit(GridVector(unitPlacementVector.x, unitPlacementVector.y), 0);
-	unit->SetCurrentTile(mTileMap[unitPlacementVector.y][unitPlacementVector.x]);
-	mTileMap[unitPlacementVector.y][unitPlacementVector.x]->SetInhabitant(unit);
-	mUnitVector.push_back(unit);
-
-	unitPlacementVector = GridVector(8, 25);
-	unit = new BonewalkerSwordUnit(GridVector(unitPlacementVector.x, unitPlacementVector.y), 1);
-	unit->SetCurrentTile(mTileMap[unitPlacementVector.y][unitPlacementVector.x]);
-	mTileMap[unitPlacementVector.y][unitPlacementVector.x]->SetInhabitant(unit);
-	mUnitVector.push_back(unit);
-
-	unitPlacementVector = GridVector(8, 26);
-	unit = new BonewalkerSwordUnit(GridVector(unitPlacementVector.x, unitPlacementVector.y), 1);
-	unit->SetCurrentTile(mTileMap[unitPlacementVector.y][unitPlacementVector.x]);
-	mTileMap[unitPlacementVector.y][unitPlacementVector.x]->SetInhabitant(unit);
-	mUnitVector.push_back(unit);
-
-	unitPlacementVector = GridVector(8, 28);
-	unit = new BonewalkerSwordUnit(GridVector(unitPlacementVector.x, unitPlacementVector.y), 1);
-	unit->SetCurrentTile(mTileMap[unitPlacementVector.y][unitPlacementVector.x]);
-	mTileMap[unitPlacementVector.y][unitPlacementVector.x]->SetInhabitant(unit);
-	mUnitVector.push_back(unit);
+	SpawnUnit(MERCENARY, GridVector(4, 8), 0);
+	SpawnUnit(MAGE, GridVector(1, 13), 0);
+	SpawnUnit(WYVERNRIDER, GridVector(15, 17), 0);
+	SpawnUnit(BONEWALKERSWORD, GridVector(20, 18), 1);
+	SpawnUnit(BONEWALKERSWORD, GridVector(21, 17), 1);
+	SpawnUnit(BONEWALKERSWORD, GridVector(20, 20), 1);
+	SpawnUnit(WYVERNRIDER, GridVector(12, 16), 1);
+	SpawnUnit(MAGE, GridVector(11, 13), 0);
+	SpawnUnit(BONEWALKERSWORD, GridVector(12, 2), 0);
 }
 
 Level::~Level()
@@ -138,6 +112,9 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 			if (t->GetClicked())
 			{
 				click = true;
+				for (TileMap::size_type y = 0; y < mTileMap.size(); y++)
+					for (TileRow::size_type x = 0; x < mTileMap[y].size(); x++)
+						mTileMap[y][x]->SetHighlight(false);
 			}
 
 			if (t->GetRightClicked())
@@ -160,16 +137,19 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 					{
 						if (y < 0) y = 0;
 						if (y >= mTileMap.size()) break;
-						int x = gridVector.x - moveRange, max = gridVector.x + moveRange;
-						if (max > mTileMap[0].size())
-						{
-							max = mTileMap[0].size();
-							if (max < mTileMap[1].size()) max = mTileMap[1].size();
-						}
+						int x, max;
+						x = floor((gridVector.x - moveRange) / 2);
+						max = floor((gridVector.x + moveRange) / 2) + 1;
+						if (max > mTileMap[y].size()) max = mTileMap[y].size();
 						for (x; x < max; x++)
 						{
 							if (x < 0) x = 0;
-							mTileMap[y][x]->SetHighlight(sf::Color(100, 100, 255, 127), true);
+							int tileDistance = mPathfinder.GetDistanceCost(mTileMap[y][x], t);
+							if (tileDistance <= moveRange)
+							{
+								if (mPathfinder.IsTherePath(mTileMap[y][x], t))
+									mTileMap[y][x]->SetHighlight(sf::Color(50, 50, 255, 127), true);
+							}
 						}
 					}
 				}
@@ -184,6 +164,19 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 	{
 		u->Update(mouseWorldPos);
 		u->SetMoving(false);
+	}
+
+	if (DebugManager::GetInstance().debugMode)
+	{
+		DebugManager::GetInstance().SetDebugString(DebugManager::GetInstance().GetDebugString() +
+			"\nMouseover Tile GridX = " + to_string(mMouseoverPosition.x) +
+			"\nMouseover Tile GridY = " + to_string(mMouseoverPosition.y));
+		if (mSelectedUnit != nullptr)
+		{
+			DebugManager::GetInstance().SetDebugString(DebugManager::GetInstance().GetDebugString() +
+				"\nSelected Unit GridX = " + to_string(mSelectedUnit->GetGridPosition().x) +
+				"\nSelected Unit GridY = " + to_string(mSelectedUnit->GetGridPosition().y));
+		}
 	}
 }
 
@@ -233,4 +226,34 @@ void Level::InternalClear()
 		assert(mUnitVector.back() == nullptr);
 		mUnitVector.pop_back();
 	}
+}
+
+void Level::SpawnUnit(UnitType type, GridVector position, int teamNr)
+{
+	assert(position.x % 2 == position.y % 2);
+	Unit *unit;
+	if (type == MERCENARY)
+		unit = new MercenaryUnit(position, teamNr);
+	/*else if (type == ARCHER)
+		;*/
+	else if (type == WYVERNRIDER)
+		unit = new WyvernRiderUnit(position, teamNr);
+	/*else if (type == CAVALLIER)
+		;*/
+	/*else if (type == FIGHTER)
+		;*/
+	else if (type == MAGE)
+		unit = new MageUnit(position, teamNr);
+	else if (type == BONEWALKERSWORD)
+		unit = new BonewalkerSwordUnit(position, teamNr);
+	/*else if (type == GARGOYLE)
+		;*/
+	else
+		unit = new MercenaryUnit(position, teamNr);
+
+	int x = floor(position.x / 2);
+	Tile *tile = mTileMap[position.y][x];
+	unit->SetCurrentTile(tile);
+	tile->SetInhabitant(unit);
+	mUnitVector.push_back(unit);
 }

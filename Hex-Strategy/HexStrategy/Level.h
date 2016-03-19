@@ -6,6 +6,20 @@
 #include "Unit.h"
 #include "Pathfinder.h"
 
+#include "DebugManager.h"
+
+enum UnitType
+{
+	MERCENARY,
+	ARCHER,
+	CAVALLIER,
+	WYVERNRIDER,
+	MAGE,
+	BONEWALKERSWORD,
+	FIGHTER,
+	GARGOYLE
+};
+
 class Level
 {
 public:
@@ -20,6 +34,7 @@ public:
 	Pathfinder* GetPathfinder();
 private:
 	void InternalClear();
+	void SpawnUnit(UnitType type, GridVector position, int teamNr);
 	TileMap mTileMap;
 	GridVector mMapSize, mMouseoverPosition;
 	UnitVector mUnitVector;
