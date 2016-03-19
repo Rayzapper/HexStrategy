@@ -5,7 +5,7 @@ MageUnit::MageUnit(GridVector gridVector, int team)
 {
 	mUnitClasses.push_back(INFANTRY);
 	mUnitClasses.push_back(CASTER);
-	SetBaseMovement();
+	SetBaseStats();
 }
 
 MageUnit::~MageUnit()

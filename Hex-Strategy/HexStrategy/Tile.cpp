@@ -140,12 +140,12 @@ PathValues Tile::GetPathValues()
 	return mPathValues;
 }
 
-vector<Tile*> Tile::GetPath(vector<Tile*> path)
+vector<GridVector> Tile::GetPath(vector<GridVector> path)
 {
 	if (mPathParent != nullptr)
 	{
 		path = mPathParent->GetPath(path);
-		path.push_back(mPathParent);
+		path.push_back(mPathParent->GetGridPosition());
 	}
 	return path;
 }

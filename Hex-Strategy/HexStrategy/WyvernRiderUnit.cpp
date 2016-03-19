@@ -6,7 +6,7 @@ WyvernRiderUnit::WyvernRiderUnit(GridVector gridVector, int team)
 	mUnitClasses.push_back(INFANTRY);
 	mUnitClasses.push_back(CAVALRY);
 	mUnitClasses.push_back(FLIER);
-	SetBaseMovement();
+	SetBaseStats();
 }
 
 WyvernRiderUnit::~WyvernRiderUnit()

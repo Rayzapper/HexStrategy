@@ -18,10 +18,16 @@ public:
 	Pathfinder();
 	~Pathfinder();
 	void Update();
-	vector<Tile*> FindPath(Tile *start, Tile *target);
+	// Only use sparingly to find paths between two tiles.
+	vector<GridVector> FindPath(Tile *start, Tile *target);
+	// Only use sparingly to find paths between two tiles.
 	bool IsTherePath(Tile *start, Tile *target);
+	vector<Tile*> GetMovableTiles(Tile *origin, Unit *unit);
 	int GetDistanceCost(Tile *tile1, Tile *tile2);
 	int CheckPathLength(Tile *tile, int oldLength);
+	// Perhaps add something that can get a ring of Tiles around a tile? parameters being centerTile and ring range.
+private:
+	bool CanUnitPass(Tile *tile, Unit *unit);
 };
 
 #endif

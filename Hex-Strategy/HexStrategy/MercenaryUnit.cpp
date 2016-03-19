@@ -4,7 +4,7 @@ MercenaryUnit::MercenaryUnit(GridVector gridVector, int team)
 	: Unit(1, gridVector, team)
 {
 	mUnitClasses.push_back(INFANTRY);
-	SetBaseMovement();
+	SetBaseStats();
 }
 
 MercenaryUnit::~MercenaryUnit()

@@ -11,7 +11,8 @@ enum UnitClass
 	INFANTRY,
 	CASTER,
 	CAVALRY,
-	FLIER
+	FLIER,
+	BOWMAN
 };
 
 class Unit : public Entity
@@ -33,11 +34,16 @@ public:
 	GridVector GetGridPosition() const;
 	int GetMovementRange() const;
 	Tile* GetCurrentTile() const;
+	vector<UnitClass> GetUnitClasses() const;
+	int GetMinAttackRange() const;
+	int GetMaxAttackRange() const;
+	bool GetMoving() const;
+	void UnitMove(vector<GridVector> orderList);
 protected:
-	void SetBaseMovement();
-	static const int mTileSize = 32;
+	void SetBaseStats();
+	static const int mTileSize = 32, mMovementSpeed = 3;
 	int mTeamNumber;
-	GridVector mGridVector, mSpriteAnimationVector = GridVector(0, 1), mSpriteSize;
+	GridVector mGridVector, mSpriteAnimationVector = GridVector(0, 1), mSpriteSize, *mCurrentTargetTile;
 	Tile *mCurrentTile;
 	bool mMoving, mMouseover, mMovingUp, mMovingDown, mMovingLeft, mMovingRight;
 	int mAnimationDirection = 1;
@@ -45,6 +51,10 @@ protected:
 	sf::Clock mAnimationClock, mSubAnimationClock;
 	int mBaseMovementRange = 5;
 	vector<UnitClass> mUnitClasses;
+	int mMinAttackRange = 1;
+	int mMaxAttackRange = 1;
+	vector<GridVector> mMovementList;
+	sf::Vector2f mCurrentPosition, mTargetPosition;
 };
 
 #endif

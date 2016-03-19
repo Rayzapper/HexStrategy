@@ -58,7 +58,7 @@ public:
 	bool GetRightClicked();
 	Tile* GetPathParent() const;
 	PathValues GetPathValues();
-	vector<Tile*> GetPath(vector<Tile*> path);
+	vector<GridVector> GetPath(vector<GridVector> path);
 private:
 	Button *mButton;
 	GridVector mGridPosition;

@@ -97,6 +97,10 @@ Level::~Level()
 
 void Level::Update(sf::Vector2f mouseWorldPos)
 {
+	for each (Unit *u in mUnitVector)
+	{
+		u->SetMoving(false);
+	}
 	for each (TileRow r in mTileMap)
 	{
 		for each (Tile *t in r)
@@ -110,60 +114,76 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 				mMouseoverPosition = gridVector;
 
 			if (t->GetClicked())
-			{
 				click = true;
-				for (TileMap::size_type y = 0; y < mTileMap.size(); y++)
-					for (TileRow::size_type x = 0; x < mTileMap[y].size(); x++)
-						mTileMap[y][x]->SetHighlight(false);
-			}
-
-			if (t->GetRightClicked())
-			{
+			if (t->GetRightClicked() && !click)
 				rightClick = true;
-			}
 
-			if (inhabitant != nullptr)
+			if (inhabitant != nullptr && mSelectedUnit == nullptr)
 			{
 				inhabitant->SetMouseover(mouseover);
 			}
+
 			if (click)
 			{
-				mSelectedUnit = inhabitant;
-				if (inhabitant != nullptr)
+				if (!mUnitIsMoving)
 				{
-					int moveRange = inhabitant->GetMovementRange();
-					int y = gridVector.y - moveRange * 2;
-					for (y; y <= gridVector.y + moveRange * 2; y++)
+					for (TileMap::size_type y = 0; y < mTileMap.size(); y++)
+						for (TileRow::size_type x = 0; x < mTileMap[y].size(); x++)
+							mTileMap[y][x]->SetHighlight(false);
+
+					if (find(mMovableTiles.begin(), mMovableTiles.end(), t) == mMovableTiles.end() || inhabitant != nullptr)
 					{
-						if (y < 0) y = 0;
-						if (y >= mTileMap.size()) break;
-						int x, max;
-						x = floor((gridVector.x - moveRange) / 2);
-						max = floor((gridVector.x + moveRange) / 2) + 1;
-						if (max > mTileMap[y].size()) max = mTileMap[y].size();
-						for (x; x < max; x++)
+						if (mSelectedUnit != nullptr)
+							mSelectedUnit->SetMoving(false);
+						mSelectedUnit = inhabitant;
+					}
+					else
+					{
+						mUnitIsMoving = true;
+						if (mSelectedUnit != nullptr)
 						{
-							if (x < 0) x = 0;
-							int tileDistance = mPathfinder.GetDistanceCost(mTileMap[y][x], t);
-							if (tileDistance <= moveRange)
-							{
-								if (mPathfinder.IsTherePath(mTileMap[y][x], t))
-									mTileMap[y][x]->SetHighlight(sf::Color(50, 50, 255, 127), true);
-							}
+							mSelectedUnit->UnitMove(mPathfinder.FindPath(mSelectedUnit->GetCurrentTile(), t));
+							AssignUnitTile(t, mSelectedUnit);
+							mSelectedUnit = nullptr;
 						}
 					}
+
+					if (inhabitant != nullptr)
+					{
+						mSelectedUnit->SetMouseover(false);
+						mMovableTiles = mPathfinder.GetMovableTiles(t, inhabitant);
+						for each (Tile *t in mMovableTiles)
+							t->SetHighlight(sf::Color(50, 50, 255, 127), true);
+					}
+				}
+			}
+			else if (rightClick)
+			{
+				if (!mUnitIsMoving)
+				{
+					for (TileMap::size_type y = 0; y < mTileMap.size(); y++)
+						for (TileRow::size_type x = 0; x < mTileMap[y].size(); x++)
+							mTileMap[y][x]->SetHighlight(false);
+					if (mSelectedUnit != nullptr)
+					{
+						mSelectedUnit->SetMoving(false);
+					}
+					mSelectedUnit = nullptr;
 				}
 			}
 		}
 	}
+
 	if (mSelectedUnit != nullptr)
 	{
 		mSelectedUnit->SetMovingDown(true);
 	}
+	mUnitIsMoving = false;
 	for each (Unit *u in mUnitVector)
 	{
 		u->Update(mouseWorldPos);
-		u->SetMoving(false);
+		if (u->GetMoving())
+			mUnitIsMoving = true;
 	}
 
 	if (DebugManager::GetInstance().debugMode)
@@ -182,7 +202,7 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 
 void Level::Render(sf::RenderWindow *window)
 {
-	vector<Unit*> unitList;
+	vector<Unit*> unitList, movingList;
 	for each (TileRow r in mTileMap)
 	{
 		for each (Tile *t in r)
@@ -190,10 +210,17 @@ void Level::Render(sf::RenderWindow *window)
 			t->Render(window);
 			Unit *inhabitant = t->GetInhabitant();
 			if (inhabitant != nullptr)
-				unitList.push_back(inhabitant);
+			{
+				if (!inhabitant->GetMoving())
+					unitList.push_back(inhabitant);
+				else
+					movingList.push_back(inhabitant);
+			}
 		}
 	}
 	for each (Unit *u in unitList)
+		u->Render(window);
+	for each (Unit *u in movingList)
 		u->Render(window);
 }
 
@@ -256,4 +283,11 @@ void Level::SpawnUnit(UnitType type, GridVector position, int teamNr)
 	unit->SetCurrentTile(tile);
 	tile->SetInhabitant(unit);
 	mUnitVector.push_back(unit);
+}
+
+void Level::AssignUnitTile(Tile *newTile, Unit *unit)
+{
+	unit->GetCurrentTile()->SetInhabitant(nullptr);
+	newTile->SetInhabitant(unit);
+	unit->SetCurrentTile(newTile);
 }

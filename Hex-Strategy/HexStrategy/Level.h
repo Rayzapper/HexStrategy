@@ -35,11 +35,14 @@ public:
 private:
 	void InternalClear();
 	void SpawnUnit(UnitType type, GridVector position, int teamNr);
+	void AssignUnitTile(Tile *newTile, Unit *unit);
 	TileMap mTileMap;
 	GridVector mMapSize, mMouseoverPosition;
 	UnitVector mUnitVector;
 	Unit *mSelectedUnit;
 	Pathfinder mPathfinder;
+	vector<Tile*> mMovableTiles;
+	bool mUnitIsMoving = false;
 };
 
 #endif
