@@ -27,6 +27,11 @@ Unit::~Unit()
 
 void Unit::Update(sf::Vector2f mouseWorldPos)
 {
+	if (mMoveAvailable)
+		mSprite.setColor(sf::Color::White);
+	else
+		mSprite.setColor(sf::Color(127, 127, 127, 255));
+
 	SetMoving(!mMovementList.empty());
 	if (!mMovementList.empty())
 		mCurrentTargetTile = &mMovementList.front();
@@ -257,6 +262,18 @@ void Unit::SetMovingRight(bool moving)
 	}
 }
 
+void Unit::SetMoveAvailable(bool move)
+{
+	mMoveAvailable = move;
+}
+
+void Unit::SetCurrentPosition(sf::Vector2f position)
+{
+	mCurrentPosition = position;
+	mRenderPosition.x = mCurrentPosition.x + mTileSize / 2;
+	mRenderPosition.y = mCurrentPosition.y + mTileSize;
+}
+
 GridVector Unit::GetGridPosition() const
 {
 	return mGridVector;
@@ -290,6 +307,21 @@ int Unit::GetMaxAttackRange() const
 bool Unit::GetMoving() const
 {
 	return mMoving;
+}
+
+int Unit::GetTeam() const
+{
+	return mTeamNumber;
+}
+
+bool Unit::GetMoveAvailable() const
+{
+	return mMoveAvailable;
+}
+
+sf::Vector2f Unit::GetCurrentPosition() const
+{
+	return mCurrentPosition;
 }
 
 void Unit::UnitMove(vector<GridVector> orderList)

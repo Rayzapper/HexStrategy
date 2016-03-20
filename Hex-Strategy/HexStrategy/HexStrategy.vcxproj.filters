@@ -108,6 +108,21 @@
     <ClCompile Include="Pathfinder.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="ArcherUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="BonewalkerBowUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="CavallierUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="FighterUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="GargoyleUnit.cpp">
+      <Filter>Source Files\Entities\Units</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -175,6 +190,21 @@
     </ClInclude>
     <ClInclude Include="Pathfinder.h">
       <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcherUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="BonewalkerBowUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="CavallierUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="FighterUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="GargoyleUnit.h">
+      <Filter>Header Files\Entities\Units</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

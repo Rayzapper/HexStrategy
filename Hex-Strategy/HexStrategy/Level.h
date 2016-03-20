@@ -8,22 +8,31 @@
 
 #include "DebugManager.h"
 
+enum SubState
+{
+	PLAY,
+	RIGHTMENU,
+	UNITMENU,
+	UNITATTACK
+};
+
 enum UnitType
 {
 	MERCENARY,
+	FIGHTER,
 	ARCHER,
 	CAVALLIER,
 	WYVERNRIDER,
 	MAGE,
 	BONEWALKERSWORD,
-	FIGHTER,
+	BONEWALKERBOW,
 	GARGOYLE
 };
 
 class Level
 {
 public:
-	Level(GridVector mapSize);
+	Level(GridVector mapSize, sf::RenderWindow *window);
 	~Level();
 	typedef vector<Tile*> TileRow;
 	typedef vector<TileRow> TileMap;
@@ -32,6 +41,10 @@ public:
 	void Render(sf::RenderWindow *window);
 	GridVector GetMouseoverPosition();
 	Pathfinder* GetPathfinder();
+	void ChangeTurn();
+	void PlayUpdate(sf::Vector2f mouseWorldPos);
+	void RightMenuUpdate(sf::Vector2f mouseWorldPos);
+	void UnitMenuUpdate(sf::Vector2f mouseWorldPos);
 private:
 	void InternalClear();
 	void SpawnUnit(UnitType type, GridVector position, int teamNr);
@@ -39,10 +52,13 @@ private:
 	TileMap mTileMap;
 	GridVector mMapSize, mMouseoverPosition;
 	UnitVector mUnitVector;
-	Unit *mSelectedUnit;
+	Unit *mSelectedUnit, *mMovedUnit;
 	Pathfinder mPathfinder;
-	vector<Tile*> mMovableTiles;
+	vector<Tile*> mMovableTiles, mAttackableTiles;
 	bool mUnitIsMoving = false;
+	int mPlayerTurn = 0;
+	SubState mSubState = PLAY;
+	Tile *mMovedFromTile;
 };
 
 #endif

@@ -158,13 +158,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArcherUnit.cpp" />
+    <ClCompile Include="BonewalkerBowUnit.cpp" />
     <ClCompile Include="BonewalkerSwordUnit.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CavallierUnit.cpp" />
     <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FighterUnit.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="GargoyleUnit.cpp" />
     <ClCompile Include="GridVector.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MageUnit.cpp" />
@@ -183,11 +188,16 @@
     <ClCompile Include="WyvernRiderUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArcherUnit.h" />
+    <ClInclude Include="BonewalkerBowUnit.h" />
     <ClInclude Include="BonewalkerSwordUnit.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CavallierUnit.h" />
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FighterUnit.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GargoyleUnit.h" />
     <ClInclude Include="GridVector.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="GameState.h" />

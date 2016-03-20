@@ -25,7 +25,7 @@ public:
 	vector<Tile*> GetMovableTiles(Tile *origin, Unit *unit);
 	int GetDistanceCost(Tile *tile1, Tile *tile2);
 	int CheckPathLength(Tile *tile, int oldLength);
-	// Perhaps add something that can get a ring of Tiles around a tile? parameters being centerTile and ring range.
+	vector<Tile*> GetTileCircle(Tile *centerTile, int range);
 private:
 	bool CanUnitPass(Tile *tile, Unit *unit);
 };

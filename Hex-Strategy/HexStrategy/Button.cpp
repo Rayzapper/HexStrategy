@@ -51,6 +51,11 @@ void Button::SetFont(sf::Font *font)
 	mButtonText.setFont(*mFont);
 }
 
+void Button::SetCharSize(int size)
+{
+	mButtonText.setCharacterSize(size);
+}
+
 bool Button::GetMouseover()
 {
 	return mMouseOver;

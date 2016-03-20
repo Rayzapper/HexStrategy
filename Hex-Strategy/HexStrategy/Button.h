@@ -16,6 +16,7 @@ public:
 	virtual void Update(sf::Vector2f mouseWorldPos);
 	virtual void Render(sf::RenderWindow *window);
 	void SetFont(sf::Font *font);
+	void SetCharSize(int size);
 	bool GetMouseover();
 	bool GetClicked();
 	bool GetRightClicked();

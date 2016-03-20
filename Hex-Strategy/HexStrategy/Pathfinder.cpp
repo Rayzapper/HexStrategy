@@ -186,6 +186,24 @@ int Pathfinder::CheckPathLength(Tile *tile, int oldLength)
 	return length;
 }
 
+vector<Tile*> Pathfinder::GetTileCircle(Tile *centerTile, int range)
+{
+	vector<Tile*> circle, closed;
+	circle.push_back(centerTile);
+	for (int i = 0; i < range; i++)
+	{
+		vector<Tile*> temp = circle;
+		for each (Tile *t in circle)
+			closed.push_back(t);
+		circle.clear();
+		for each (Tile *t in temp)
+			for each (Tile *neighbor in t->GetNeighbors())
+				if (find(closed.begin(), closed.end(), neighbor) == closed.end() && find(circle.begin(), circle.end(), neighbor) == circle.end())
+					circle.push_back(neighbor);
+	}
+	return circle;
+}
+
 bool Pathfinder::CanUnitPass(Tile *tile, Unit *unit)
 {
 	if (tile->GetTileType() == WALL)
@@ -195,5 +213,8 @@ bool Pathfinder::CanUnitPass(Tile *tile, Unit *unit)
 		return true;
 	if (tile->GetTileType() == HOLE)
 		return false;
+	if (tile->GetInhabitant() != nullptr)
+		if (unit->GetTeam() != tile->GetInhabitant()->GetTeam())
+			return false;
 	return true;
 }

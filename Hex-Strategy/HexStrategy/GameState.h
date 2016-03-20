@@ -18,6 +18,7 @@ public:
 	virtual void Update(sf::Vector2f mouseWorldPos) = 0;
 	virtual void Render(sf::RenderWindow *window) = 0;
 	void ChangeState(GameState *state);
+	sf::RenderWindow* GetWindow();
 protected:
 	sf::Texture* GetTexture(int textureID) const;
 	GameStateManager *mGameStateManager;

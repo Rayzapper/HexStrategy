@@ -14,8 +14,9 @@ GameStateManager& GameStateManager::GetInstance()
 	return manager;
 }
 
-void GameStateManager::Initialize()
+void GameStateManager::Initialize(sf::RenderWindow *window)
 {
+	mWindow = window;
 	stateStack.push(new PlayState(this, ""));
 }
 
@@ -59,6 +60,11 @@ void GameStateManager::SwitchState(GameState *state)
 	stateStack.pop();
 	stateStack.push(state);
 	stateStack.top()->LoadContent();
+}
+
+sf::RenderWindow* GameStateManager::GetWindow() const
+{
+	return mWindow;
 }
 
 GameStateManager::GameStateManager()

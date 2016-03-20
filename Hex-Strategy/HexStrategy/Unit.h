@@ -31,6 +31,8 @@ public:
 	void SetMovingDown(bool moving);
 	void SetMovingLeft(bool moving);
 	void SetMovingRight(bool moving);
+	void SetMoveAvailable(bool move);
+	void SetCurrentPosition(sf::Vector2f position);
 	GridVector GetGridPosition() const;
 	int GetMovementRange() const;
 	Tile* GetCurrentTile() const;
@@ -38,6 +40,9 @@ public:
 	int GetMinAttackRange() const;
 	int GetMaxAttackRange() const;
 	bool GetMoving() const;
+	int GetTeam() const;
+	bool GetMoveAvailable() const;
+	sf::Vector2f GetCurrentPosition() const;
 	void UnitMove(vector<GridVector> orderList);
 protected:
 	void SetBaseStats();
@@ -55,6 +60,7 @@ protected:
 	int mMaxAttackRange = 1;
 	vector<GridVector> mMovementList;
 	sf::Vector2f mCurrentPosition, mTargetPosition;
+	bool mMoveAvailable = true;
 };
 
 #endif

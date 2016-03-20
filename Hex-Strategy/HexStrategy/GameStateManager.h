@@ -14,7 +14,7 @@ public:
 
 	typedef std::stack<GameState*> GameStates;
 
-	void Initialize();
+	void Initialize(sf::RenderWindow *window);
 	void LoadContent();
 	void Update(sf::Vector2f mouseWorldPos);
 	void Render(sf::RenderWindow *window);
@@ -22,10 +22,13 @@ public:
 	void PushState(GameState *state);
 	void PopState();
 	void SwitchState(GameState *state);
+
+	sf::RenderWindow* GetWindow() const;
 private:
 	GameStateManager();
 	GameStateManager(const GameStateManager &gameStateManager);	
 	GameStateManager& operator=(const GameStateManager &textureManager);
+	sf::RenderWindow *mWindow;
 };
 
 #endif

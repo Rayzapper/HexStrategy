@@ -35,7 +35,7 @@ void Game::Run()
 
 	window->setView(*mainView);
 
-	GameStateManager::GetInstance().Initialize();
+	GameStateManager::GetInstance().Initialize(window);
 	GameStateManager::GetInstance().LoadContent();
 	
 	while (window->isOpen())
