@@ -274,6 +274,11 @@ void Unit::SetCurrentPosition(sf::Vector2f position)
 	mRenderPosition.y = mCurrentPosition.y + mTileSize;
 }
 
+void Unit::SetTeam(int team)
+{
+	mTeamNumber = team;
+}
+
 GridVector Unit::GetGridPosition() const
 {
 	return mGridVector;
@@ -330,6 +335,24 @@ void Unit::UnitMove(vector<GridVector> orderList)
 	mMoving = true;
 	mMovementList.erase(mMovementList.begin());
 }
+
+//Unit& Unit::operator=(const Unit &unit)
+//{
+//	mGridVector = unit.mGridVector;
+//	mCurrentPosition = unit.mCurrentPosition;
+//	mTeamNumber = unit.mTeamNumber;
+//	mSpriteSize = unit.mSpriteSize;
+//	mBaseMovementRange = unit.mBaseMovementRange;
+//	mUnitClasses = unit.mUnitClasses;
+//	mMinAttackRange = unit.mMinAttackRange;
+//	mMaxAttackRange = unit.mMaxAttackRange;
+//	mMoveAvailable = unit.mMoveAvailable;
+//	mSprite = unit.mSprite;
+//	mRenderPosition = unit.mRenderPosition;
+//	mTexture = unit.mTexture;
+//
+//	return *this;
+//}
 
 void Unit::SetBaseStats()
 {

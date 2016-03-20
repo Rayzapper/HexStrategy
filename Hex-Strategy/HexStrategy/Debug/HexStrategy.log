@@ -1,27 +1,20 @@
 ﻿  Level.cpp
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(126): warning C4018: '<=': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(128): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(130): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(132): warning C4018: '<=': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(132): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(140): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(142): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(144): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(146): warning C4018: '<': signed/unsigned mismatch
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(299): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(301): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(304): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(306): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(446): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(515): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  Button.cpp
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(63): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(64): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(108): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Tile.cpp
-  MainMenuState.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(73): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(74): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(145): warning C4018: '<=': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(147): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(149): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(151): warning C4018: '<=': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(151): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(159): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(161): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(163): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(165): warning C4018: '<': signed/unsigned mismatch
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(333): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(335): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(338): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(340): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(488): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(600): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   HexStrategy.vcxproj -> C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\HexStrategy\Hex-Strategy\Debug\HexStrategy.exe

@@ -33,6 +33,7 @@ public:
 	void SetMovingRight(bool moving);
 	void SetMoveAvailable(bool move);
 	void SetCurrentPosition(sf::Vector2f position);
+	void SetTeam(int team);
 	GridVector GetGridPosition() const;
 	int GetMovementRange() const;
 	Tile* GetCurrentTile() const;
@@ -44,9 +45,10 @@ public:
 	bool GetMoveAvailable() const;
 	sf::Vector2f GetCurrentPosition() const;
 	void UnitMove(vector<GridVector> orderList);
+	//virtual Unit& operator=(const Unit &unit);
 protected:
 	void SetBaseStats();
-	static const int mTileSize = 32, mMovementSpeed = 3;
+	static const int mTileSize = 32;
 	int mTeamNumber;
 	GridVector mGridVector, mSpriteAnimationVector = GridVector(0, 1), mSpriteSize, *mCurrentTargetTile;
 	Tile *mCurrentTile;

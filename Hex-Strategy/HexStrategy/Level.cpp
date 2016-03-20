@@ -21,6 +21,17 @@ static vector<Button*> rightMenuButtons, unitMenuButtons;
 static Button *cancelButton;
 static sf::Font subMenuFont;
 
+GridVector prototypeVector(0, 0);
+static MercenaryUnit mercenaryPrototype(prototypeVector, 0);
+static WyvernRiderUnit wyvernRiderPrototype(prototypeVector, 0);
+static MageUnit magePrototype(prototypeVector, 0);
+static BonewalkerSwordUnit bonewalkerSwordPrototype(prototypeVector, 0);
+static FighterUnit fighterPrototype(prototypeVector, 0);
+static GargoyleUnit gargoylePrototype(prototypeVector, 0);
+static ArcherUnit archerPrototype(prototypeVector, 0);
+static BonewalkerBowUnit bonewalkerBowPrototype(prototypeVector, 0);
+static CavallierUnit cavallierPrototype(prototypeVector, 0);
+
 struct Selector
 {
 	GridVector gridPosition;
@@ -46,6 +57,9 @@ static Tile *selectedTile;
 static Selector selector;
 static sf::Texture selectorTexture;
 
+static sf::Text turnText;
+static float turnTextBaseX;
+
 Level::Level(GridVector mapSize, sf::RenderWindow *window)
 	: mMapSize(mapSize)
 {
@@ -53,6 +67,11 @@ Level::Level(GridVector mapSize, sf::RenderWindow *window)
 
 	if (!subMenuFont.loadFromFile("Resources/Fonts/Calibri.ttf"))
 		cout << "Could not find font Calibri.ttf" << endl;
+
+	turnText.setFont(subMenuFont);
+	turnText.setCharacterSize(100);
+	turnTextBaseX = window->getSize().x + 10;
+	turnText.setPosition(sf::Vector2f(turnTextBaseX, window->getSize().y / 2 - 50));
 
 	if (!selectorTexture.loadFromFile("Resources/Graphics/Selector_sprite.png"))
 		cout << "Could not find image Selector_sprite.png" << endl;
@@ -173,8 +192,10 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 		PlayUpdate(mouseWorldPos);
 	else if (mSubState == RIGHTMENU)
 		RightMenuUpdate(mouseWorldPos);
-	else if (mSubState == UNITMENU || mSubState == UNITATTACK)
+	else if (mSubState == UNITMENU || mSubState == TARGETING || mSubState == UNITATTACK)
 		UnitMenuUpdate(mouseWorldPos);
+	else if (mSubState == TURNCHANGE)
+		TurnChangeUpdate(mouseWorldPos);
 	selector.gridPosition = mMouseoverPosition;
 
 	if (DebugManager::GetInstance().debugMode)
@@ -222,8 +243,10 @@ void Level::Render(sf::RenderWindow *window)
 	if (mSubState == UNITMENU)
 		for each (Button *b in unitMenuButtons)
 			b->Render(window);
-	if (mSubState == UNITATTACK)
+	if (mSubState == TARGETING)
 		cancelButton->Render(window);
+	if (mSubState == TURNCHANGE)
+		window->draw(turnText);
 	window->setView(mainView);
 }
 
@@ -239,10 +262,21 @@ Pathfinder* Level::GetPathfinder()
 
 void Level::ChangeTurn()
 {
+	mTurnChangeClock.restart();
 	if (mPlayerTurn == 0) mPlayerTurn = 1;
 	else if (mPlayerTurn == 1) mPlayerTurn = 0;
 	for each (Unit *u in mUnitVector)
 		u->SetMoveAvailable(true);
+	if (mPlayerTurn == 0)
+	{
+		turnText.setString("Player 1 Turn");
+		turnText.setColor(sf::Color::Blue);
+	}
+	else if (mPlayerTurn == 1)
+	{
+		turnText.setString("Player 2 Turn");
+		turnText.setColor(sf::Color::Red);
+	}
 }
 
 void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
@@ -344,11 +378,19 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 		mSelectedUnit->SetMovingDown(true);
 	}
 	mUnitIsMoving = false;
+	bool endTurn = true;
 	for each (Unit *u in mUnitVector)
 	{
 		u->Update(mouseWorldPos);
 		if (u->GetMoving())
 			mUnitIsMoving = true;
+		if (u->GetMoveAvailable() && u->GetTeam() == mPlayerTurn)
+			endTurn = false;
+	}
+	if (endTurn)
+	{
+		mSubState = TURNCHANGE;
+		ChangeTurn();
 	}
 }
 
@@ -380,7 +422,7 @@ void Level::RightMenuUpdate(sf::Vector2f mouseWorldPos)
 
 			if (text == "End Turn")
 			{
-				mSubState = PLAY;
+				mSubState = TURNCHANGE;
 				ChangeTurn();
 			}
 			if (text == "Cancel")
@@ -429,7 +471,7 @@ void Level::UnitMenuUpdate(sf::Vector2f mouseWorldPos)
 					}
 					if (text == "Attack")
 					{
-						mSubState = UNITATTACK;
+						mSubState = TARGETING;
 						int minRange = mMovedUnit->GetMinAttackRange(), maxRange = mMovedUnit->GetMaxAttackRange();
 						for (int i = minRange; i < maxRange + 1; i++)
 							for each (Tile *t in mPathfinder.GetTileCircle(mMovedUnit->GetCurrentTile(), i))
@@ -449,7 +491,7 @@ void Level::UnitMenuUpdate(sf::Vector2f mouseWorldPos)
 				}
 			}
 		}
-		else if (mSubState == UNITATTACK)
+		else if (mSubState == TARGETING)
 		{
 			cancelButton->Update(mouseWorldPos);
 			for (TileMap::size_type y = 0; y < mTileMap.size(); y++)
@@ -467,9 +509,52 @@ void Level::UnitMenuUpdate(sf::Vector2f mouseWorldPos)
 				{
 					t->SetHighlight(sf::Color(255, 50, 50, 127), true);
 					bool click = t->GetClicked();
+
+					if (click)
+					{
+						Unit *inhabitant = t->GetInhabitant();
+						if (inhabitant != nullptr)
+						{
+							mUnitIsAttacking = true;
+							UnitAttack(mMovedUnit, inhabitant);
+						}
+					}
 				}
 			}
 		}
+		else if (mSubState == UNITATTACK)
+		{
+			if (!mUnitIsAttacking)
+				mSubState = PLAY;
+		}
+	}
+}
+
+void Level::TurnChangeUpdate(sf::Vector2f mouseWorldPos)
+{
+	for each (TileRow r in mTileMap)
+	{
+		for each (Tile *t in r)
+		{
+			t->Update(mouseWorldPos);
+
+			GridVector gridVector = t->GetGridPosition();
+			bool mouseover = t->GetMouseover();
+			if (mouseover)
+				mMouseoverPosition = gridVector;
+		}
+	}
+	for each (Unit *u in mUnitVector)
+	{
+		u->Update(mouseWorldPos);
+	}
+
+	turnText.setPosition(turnText.getPosition().x - 8, turnText.getPosition().y);
+
+	if (mTurnChangeClock.getElapsedTime().asSeconds() >= 3)
+	{
+		mSubState = PLAY;
+		turnText.setPosition(turnTextBaseX, turnText.getPosition().y);
 	}
 }
 
@@ -537,6 +622,57 @@ void Level::SpawnUnit(UnitType type, GridVector position, int teamNr)
 	else
 		unit = new MercenaryUnit(position, teamNr);
 
+	/*if (type == MERCENARY)
+	{
+		unit = MercenaryUnit(position, teamNr);
+		unit = mercenaryPrototype;
+	}
+	else if (type == FIGHTER)
+	{
+		unit = FighterUnit(position, teamNr);
+		unit = fighterPrototype;
+	}
+	else if (type == ARCHER)
+	{
+		unit = ArcherUnit(position, teamNr);
+		unit = archerPrototype;
+	}
+	else if (type == WYVERNRIDER)
+	{
+		unit = WyvernRiderUnit(position, teamNr);
+		unit = wyvernRiderPrototype;
+	}
+	else if (type == CAVALLIER)
+	{
+		unit = CavallierUnit(position, teamNr);
+		unit = cavallierPrototype;
+	}
+	else if (type == MAGE)
+	{
+		unit = MageUnit(position, teamNr);
+		unit = magePrototype;
+	}
+	else if (type == BONEWALKERSWORD)
+	{
+		unit = BonewalkerSwordUnit(position, teamNr);
+		unit = bonewalkerSwordPrototype;
+	}
+	else if (type == BONEWALKERBOW)
+	{
+		unit = BonewalkerBowUnit(position, teamNr);
+		unit = bonewalkerBowPrototype;
+	}
+	else if (type == GARGOYLE)
+	{
+		unit = GargoyleUnit(position, teamNr);
+		unit = gargoylePrototype;
+	}
+	else
+	{
+		unit = MercenaryUnit(position, teamNr);
+		unit = mercenaryPrototype;
+	}*/
+
 	unit->SetCurrentTile(tile);
 	tile->SetInhabitant(unit);
 	mUnitVector.push_back(unit);
@@ -547,4 +683,9 @@ void Level::AssignUnitTile(Tile *newTile, Unit *unit)
 	unit->GetCurrentTile()->SetInhabitant(nullptr);
 	newTile->SetInhabitant(unit);
 	unit->SetCurrentTile(newTile);
+}
+
+void Level::UnitAttack(Unit *attacker, Unit *defender)
+{
+
 }

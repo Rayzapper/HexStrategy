@@ -13,7 +13,9 @@ enum SubState
 	PLAY,
 	RIGHTMENU,
 	UNITMENU,
-	UNITATTACK
+	TARGETING,
+	UNITATTACK,
+	TURNCHANGE
 };
 
 enum UnitType
@@ -45,20 +47,23 @@ public:
 	void PlayUpdate(sf::Vector2f mouseWorldPos);
 	void RightMenuUpdate(sf::Vector2f mouseWorldPos);
 	void UnitMenuUpdate(sf::Vector2f mouseWorldPos);
+	void TurnChangeUpdate(sf::Vector2f mouseWorldPos);
 private:
 	void InternalClear();
 	void SpawnUnit(UnitType type, GridVector position, int teamNr);
 	void AssignUnitTile(Tile *newTile, Unit *unit);
+	void UnitAttack(Unit *attacker, Unit *defender);
 	TileMap mTileMap;
 	GridVector mMapSize, mMouseoverPosition;
 	UnitVector mUnitVector;
 	Unit *mSelectedUnit, *mMovedUnit;
 	Pathfinder mPathfinder;
 	vector<Tile*> mMovableTiles, mAttackableTiles;
-	bool mUnitIsMoving = false;
+	bool mUnitIsMoving = false, mUnitIsAttacking = false;
 	int mPlayerTurn = 0;
 	SubState mSubState = PLAY;
 	Tile *mMovedFromTile;
+	sf::Clock mTurnChangeClock;
 };
 
 #endif
