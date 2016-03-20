@@ -17,6 +17,8 @@ public:
 	virtual void Render(sf::RenderWindow *window);
 	void SetFont(sf::Font *font);
 	void SetCharSize(int size);
+	void SetPosition(sf::Vector2f position);
+	void SetColor(sf::Color color);
 	bool GetMouseover();
 	bool GetClicked();
 	bool GetRightClicked();

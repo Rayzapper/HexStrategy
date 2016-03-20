@@ -56,6 +56,22 @@ void Button::SetCharSize(int size)
 	mButtonText.setCharacterSize(size);
 }
 
+void Button::SetPosition(sf::Vector2f position)
+{
+	mRenderPosition = position;
+	mSprite.setPosition(position);
+	mHitBox.left = mRenderPosition.x;
+	mHitBox.top = mRenderPosition.y;
+	mShape.setPosition(position);
+	mButtonText.setPosition(position.x + mShape.getSize().x / 2, position.y + mShape.getSize().y / 2);
+}
+
+void Button::SetColor(sf::Color color)
+{
+	mShape.setFillColor(color);
+	mSprite.setColor(color);
+}
+
 bool Button::GetMouseover()
 {
 	return mMouseOver;

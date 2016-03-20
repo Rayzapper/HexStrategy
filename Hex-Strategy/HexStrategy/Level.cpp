@@ -67,17 +67,20 @@ Level::Level(GridVector mapSize, sf::RenderWindow *window)
 	button->SetCharSize(18);
 	rightMenuButtons.push_back(button);
 
-	button = new Button(sf::IntRect(16, 16, 128, 32), "Wait", &subMenuFont);
+	button = new Button(sf::IntRect(0, 0, 128, 32), "Wait", &subMenuFont);
 	button->SetCharSize(18);
+	button->SetColor(sf::Color(50, 50, 200, 191));
 	unitMenuButtons.push_back(button);
-	button = new Button(sf::IntRect(16, 48, 128, 32), "Attack", &subMenuFont);
+	button = new Button(sf::IntRect(0, 0, 128, 32), "Attack", &subMenuFont);
 	button->SetCharSize(18);
+	button->SetColor(sf::Color(50, 50, 200, 191));
 	unitMenuButtons.push_back(button);
-	button = new Button(sf::IntRect(16, 80, 128, 32), "Cancel", &subMenuFont);
+	button = new Button(sf::IntRect(0, 0, 128, 32), "Cancel", &subMenuFont);
 	button->SetCharSize(18);
+	button->SetColor(sf::Color(50, 50, 200, 191));
 	unitMenuButtons.push_back(button);
 
-	cancelButton = new Button(sf::IntRect(16, 16, 128, 32), "Cancel", &subMenuFont);
+	cancelButton = new Button(sf::IntRect(0, 0, 128, 32), "Cancel", &subMenuFont);
 	cancelButton->SetCharSize(18);
 
 	for (int y = 0; y < mapSize.y; y++)
@@ -261,7 +264,7 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 			if (t->GetRightClicked() && !click)
 				rightClick = true;
 
-			if (inhabitant != nullptr && mSelectedUnit == nullptr && inhabitant->GetMoveAvailable())
+			if (inhabitant != nullptr && mSelectedUnit == nullptr && inhabitant->GetMoveAvailable() && inhabitant->GetTeam() == mPlayerTurn)
 				inhabitant->SetMouseover(mouseover);
 
 			if (click)
@@ -275,7 +278,7 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 					if (find(mMovableTiles.begin(), mMovableTiles.end(), t) == mMovableTiles.end() || inhabitant != nullptr)
 					{
 						if (inhabitant != nullptr)
-							if (inhabitant->GetMoveAvailable())
+							if (inhabitant->GetMoveAvailable() && inhabitant->GetTeam() == mPlayerTurn)
 								mSelectedUnit = inhabitant;
 						if (mSelectedUnit != nullptr)
 							mSelectedUnit->SetMoving(false);
@@ -290,16 +293,35 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 							mSelectedUnit->UnitMove(mPathfinder.FindPath(mSelectedUnit->GetCurrentTile(), t));
 							AssignUnitTile(t, mSelectedUnit);
 							mSelectedUnit = nullptr;
+							sf::Vector2f buttonPosition;
+
+							if (mouseWorldPos.x < uiView.getSize().x - 150) 
+								buttonPosition.x = t->GetGridPosition().x * tileSize + tileSize * 1.5;
+							else
+								buttonPosition.x = t->GetGridPosition().x * tileSize - 100 - tileSize * 1.5;
+
+							if (mouseWorldPos.y < uiView.getSize().y - 150)
+								buttonPosition.y = t->GetGridPosition().y * tileSize / 2;
+							else
+								buttonPosition.y = t->GetGridPosition().y * tileSize / 2 - 150;
+
+							for (vector<Button*>::size_type i = 0; i < unitMenuButtons.size(); i++)
+							{
+								unitMenuButtons[i]->SetPosition(sf::Vector2f(buttonPosition.x, buttonPosition.y + i * 32));
+							}
 							mSubState = UNITMENU;
 						}
 					}
 
 					if (inhabitant != nullptr)
 					{
-						mSelectedUnit->SetMouseover(false);
-						mMovableTiles = mPathfinder.GetMovableTiles(t, inhabitant);
-						for each (Tile *t in mMovableTiles)
-							t->SetHighlight(sf::Color(50, 50, 255, 127), true);
+						if (inhabitant->GetMoveAvailable() && inhabitant->GetTeam() == mPlayerTurn)
+						{
+							mSelectedUnit->SetMouseover(false);
+							mMovableTiles = mPathfinder.GetMovableTiles(t, inhabitant);
+							for each (Tile *t in mMovableTiles)
+								t->SetHighlight(sf::Color(50, 50, 255, 127), true);
+						}
 					}
 				}
 			}
@@ -356,6 +378,11 @@ void Level::RightMenuUpdate(sf::Vector2f mouseWorldPos)
 		{
 			string text = b->GetButtonString();
 
+			if (text == "End Turn")
+			{
+				mSubState = PLAY;
+				ChangeTurn();
+			}
 			if (text == "Cancel")
 				mSubState = PLAY;
 		}
