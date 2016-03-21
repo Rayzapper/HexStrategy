@@ -23,7 +23,10 @@ private:
 		mWyvernRiderTexture,
 		mBonewalkerSwordTexture,
 		mBonewalkerBowTexture,
-		mGargoyleTexture;
+		mGargoyleTexture,
+		mTarvosTexture,
+		mRevenantTexture,
+		mShamanTexture;
 };
 
 #endif

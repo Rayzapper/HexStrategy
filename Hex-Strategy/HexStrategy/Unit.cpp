@@ -32,153 +32,169 @@ void Unit::Update(sf::Vector2f mouseWorldPos)
 	else
 		mSprite.setColor(sf::Color(127, 127, 127, 255));
 
-	SetMoving(!mMovementList.empty());
-	if (!mMovementList.empty())
-		mCurrentTargetTile = &mMovementList.front();
-
-	if (mCurrentTargetTile != nullptr)
+	if (mUnitSubState != DEAD)
 	{
-		mTargetPosition = sf::Vector2f(mCurrentTargetTile->x * mTileSize, mCurrentTargetTile->y * mTileSize / 2);
-		if (mCurrentPosition.x < mTargetPosition.x)
+		mUnitSubState = NOTATTACKING;
+		if (mCurrentAttackTarget != nullptr)
+			mUnitSubState = ATTACKING;
+		if (mUnitHP <= 0)
+			mUnitSubState = DYING;
+	}
+
+	if (mUnitSubState == NOTATTACKING)
+	{
+		SetMoving(!mMovementList.empty());
+		if (!mMovementList.empty())
+			mCurrentTargetTile = &mMovementList.front();
+
+		if (mCurrentTargetTile != nullptr)
 		{
-			SetMovingRight(true);
-			mCurrentPosition.x += 4;
-			if (mCurrentPosition.x >= mTargetPosition.x)
-				mCurrentPosition.x = mTargetPosition.x;
-			if (mCurrentPosition.y < mTargetPosition.y)
+			mTargetPosition = sf::Vector2f(mCurrentTargetTile->x * mTileSize, mCurrentTargetTile->y * mTileSize / 2);
+			if (mCurrentPosition.x < mTargetPosition.x)
 			{
-				mCurrentPosition.y += 2;
+				SetMovingRight(true);
+				mCurrentPosition.x += 4;
+				if (mCurrentPosition.x >= mTargetPosition.x)
+					mCurrentPosition.x = mTargetPosition.x;
+				if (mCurrentPosition.y < mTargetPosition.y)
+				{
+					mCurrentPosition.y += 2;
+					if (mCurrentPosition.y >= mTargetPosition.y)
+						mCurrentPosition.y = mTargetPosition.y;
+				}
+				if (mCurrentPosition.y > mTargetPosition.y)
+				{
+					mCurrentPosition.y -= 2;
+					if (mCurrentPosition.y <= mTargetPosition.y)
+						mCurrentPosition.y = mTargetPosition.y;
+				}
+			}
+			else if (mCurrentPosition.x > mTargetPosition.x)
+			{
+				SetMovingLeft(true);
+				mCurrentPosition.x -= 4;
+				if (mCurrentPosition.x <= mTargetPosition.x)
+					mCurrentPosition.x = mTargetPosition.x;
+				if (mCurrentPosition.y < mTargetPosition.y)
+				{
+					mCurrentPosition.y += 2;
+					if (mCurrentPosition.y >= mTargetPosition.y)
+						mCurrentPosition.y = mTargetPosition.y;
+				}
+				if (mCurrentPosition.y > mTargetPosition.y)
+				{
+					mCurrentPosition.y -= 2;
+					if (mCurrentPosition.y <= mTargetPosition.y)
+						mCurrentPosition.y = mTargetPosition.y;
+				}
+			}
+			else if (mCurrentPosition.y < mTargetPosition.y)
+			{
+				SetMovingDown(true);
+				mCurrentPosition.y += 4;
 				if (mCurrentPosition.y >= mTargetPosition.y)
-					mCurrentPosition.y = mTargetPosition.y;
+					mCurrentPosition = mTargetPosition;
 			}
-			if (mCurrentPosition.y > mTargetPosition.y)
+			else if (mCurrentPosition.y > mTargetPosition.y)
 			{
-				mCurrentPosition.y -= 2;
+				SetMovingUp(true);
+				mCurrentPosition.y -= 4;
 				if (mCurrentPosition.y <= mTargetPosition.y)
-					mCurrentPosition.y = mTargetPosition.y;
+					mCurrentPosition = mTargetPosition;
 			}
-		}
-		else if (mCurrentPosition.x > mTargetPosition.x)
-		{
-			SetMovingLeft(true);
-			mCurrentPosition.x -= 4;
-			if (mCurrentPosition.x <= mTargetPosition.x)
-				mCurrentPosition.x = mTargetPosition.x;
-			if (mCurrentPosition.y < mTargetPosition.y)
+
+			if (mCurrentPosition == mTargetPosition)
 			{
-				mCurrentPosition.y += 2;
-				if (mCurrentPosition.y >= mTargetPosition.y)
-					mCurrentPosition.y = mTargetPosition.y;
+				mMovementList.erase(mMovementList.begin() + 0);
+				mCurrentTargetTile = nullptr;
+				mGridVector = GridVector(mCurrentPosition.x / mTileSize, mCurrentPosition.y / mTileSize / 2);
 			}
-			if (mCurrentPosition.y > mTargetPosition.y)
+		}
+
+		if (mMovingLeft)
+		{
+			mSpriteAnimationVector.x = 1;
+			mSprite.setScale(2, 2);
+			mAnimationSpeed = 0.5;
+		}
+		else if (mMovingRight)
+		{
+			mSpriteAnimationVector.x = 1;
+			mSprite.setScale(-2, 2);
+			mAnimationSpeed = 0.5;
+		}
+		else if (mMovingDown)
+		{
+			mSpriteAnimationVector.x = 2;
+			mSprite.setScale(2, 2);
+			mAnimationSpeed = 0.5;
+		}
+		else if (mMovingUp)
+		{
+			mSpriteAnimationVector.x = 3;
+			mSprite.setScale(2, 2);
+			mAnimationSpeed = 0.5;
+		}
+		else if (mMouseover)
+		{
+			if (mSpriteAnimationVector.y <= 0)
 			{
-				mCurrentPosition.y -= 2;
-				if (mCurrentPosition.y <= mTargetPosition.y)
-					mCurrentPosition.y = mTargetPosition.y;
+				mSpriteAnimationVector.y = 1;
+				mAnimationDirection = 1;
+			}
+			mSpriteAnimationVector.x = 4;
+			mSprite.setScale(2, 2);
+			mAnimationSpeed = 0.6;
+		}
+		else
+		{
+			if (mSpriteAnimationVector.y <= 0)
+			{
+				mSpriteAnimationVector.y = 1;
+				mAnimationDirection = 1;
+			}
+			mSpriteAnimationVector.x = 0;
+			mSprite.setScale(2, 2);
+			mAnimationSpeed = 1.0;
+		}
+
+		int animationElapsed = mAnimationClock.getElapsedTime().asMilliseconds();
+		int subAnimationElapsed = mSubAnimationClock.getElapsedTime().asMilliseconds();
+
+		if (animationElapsed >= 500 * mAnimationSpeed && subAnimationElapsed >= 100 * mAnimationSpeed && !mMoving)
+		{
+			mSubAnimationClock.restart();
+			if ((mSpriteAnimationVector.y <= 1 && mAnimationDirection == -1) || (mSpriteAnimationVector.y >= 3 && mAnimationDirection == 1))
+				mAnimationDirection *= -1;
+			mSpriteAnimationVector.y += mAnimationDirection;
+			if (mSpriteAnimationVector.y >= 3 || mSpriteAnimationVector.y <= 1)
+			{
+				mAnimationDirection *= -1;
+				mAnimationClock.restart();
 			}
 		}
-		else if (mCurrentPosition.y < mTargetPosition.y)
-		{
-			SetMovingDown(true);
-			mCurrentPosition.y += 4;
-			if (mCurrentPosition.y >= mTargetPosition.y)
-				mCurrentPosition = mTargetPosition;
-		}
-		else if (mCurrentPosition.y > mTargetPosition.y)
-		{
-			SetMovingUp(true);
-			mCurrentPosition.y -= 4;
-			if (mCurrentPosition.y <= mTargetPosition.y)
-				mCurrentPosition = mTargetPosition;
-		}
 
-		if (mCurrentPosition == mTargetPosition)
+		if (subAnimationElapsed >= 250 * mAnimationSpeed && mMoving)
 		{
-			mMovementList.erase(mMovementList.begin() + 0);
-			mCurrentTargetTile = nullptr;
-			mGridVector = GridVector(mCurrentPosition.x / mTileSize, mCurrentPosition.y / mTileSize / 2);
-		}
-	}
-
-	if (mMovingLeft)
-	{
-		mSpriteAnimationVector.x = 1;
-		mSprite.setScale(2, 2);
-		mAnimationSpeed = 0.5;
-	}
-	else if (mMovingRight)
-	{
-		mSpriteAnimationVector.x = 1;
-		mSprite.setScale(-2, 2);
-		mAnimationSpeed = 0.5;
-	}
-	else if (mMovingDown)
-	{
-		mSpriteAnimationVector.x = 2;
-		mSprite.setScale(2, 2);
-		mAnimationSpeed = 0.5;
-	}
-	else if (mMovingUp)
-	{
-		mSpriteAnimationVector.x = 3;
-		mSprite.setScale(2, 2);
-		mAnimationSpeed = 0.5;
-	}
-	else if (mMouseover)
-	{
-		if (mSpriteAnimationVector.y <= 0)
-		{
-			mSpriteAnimationVector.y = 1;
-			mAnimationDirection = 1;
-		}
-		mSpriteAnimationVector.x = 4;
-		mSprite.setScale(2, 2);
-		mAnimationSpeed = 0.6;
-	}
-	else
-	{
-		if (mSpriteAnimationVector.y <= 0)
-		{
-			mSpriteAnimationVector.y = 1;
-			mAnimationDirection = 1;
-		}
-		mSpriteAnimationVector.x = 0;
-		mSprite.setScale(2, 2);
-		mAnimationSpeed = 1.0;
-	}
-
-	int animationElapsed = mAnimationClock.getElapsedTime().asMilliseconds();
-	int subAnimationElapsed = mSubAnimationClock.getElapsedTime().asMilliseconds();
-
-	if (animationElapsed >= 500 * mAnimationSpeed && subAnimationElapsed >= 100 * mAnimationSpeed && !mMoving)
-	{
-		mSubAnimationClock.restart();
-		if ((mSpriteAnimationVector.y <= 1 && mAnimationDirection == -1) || (mSpriteAnimationVector.y >= 3 && mAnimationDirection == 1))
-			mAnimationDirection *= -1;
-		mSpriteAnimationVector.y += mAnimationDirection;
-		if (mSpriteAnimationVector.y >= 3 || mSpriteAnimationVector.y <= 1)
-		{
-			mAnimationDirection *= -1;
+			mSubAnimationClock.restart();
 			mAnimationClock.restart();
+			mSpriteAnimationVector.y++;
+			if (mSpriteAnimationVector.y > 3)
+				mSpriteAnimationVector.y = 0;
 		}
+
+		mRenderPosition.x = mCurrentPosition.x + mTileSize / 2;
+		mRenderPosition.y = mCurrentPosition.y + mTileSize;
+		mSprite.setPosition(mRenderPosition);
+
+		if (mSpriteAnimationVector.y == 0 && (mSpriteAnimationVector.x == 0 || mSpriteAnimationVector.x == 4))
+			mSpriteAnimationVector.y = 1;
+		mSprite.setTextureRect(sf::IntRect(mSpriteAnimationVector.x * mSpriteSize.x, mSpriteAnimationVector.y * mSpriteSize.y + mTeamNumber * mSpriteSize.y * 4, mSpriteSize.x, mSpriteSize.y));
 	}
-
-	if (subAnimationElapsed >= 250 * mAnimationSpeed && mMoving)
-	{
-		mSubAnimationClock.restart();
-		mAnimationClock.restart();
-		mSpriteAnimationVector.y++;
-		if (mSpriteAnimationVector.y > 3)
-			mSpriteAnimationVector.y = 0;
-	}
-
-	mRenderPosition.x = mCurrentPosition.x + mTileSize / 2;
-	mRenderPosition.y = mCurrentPosition.y + mTileSize;
-	mSprite.setPosition(mRenderPosition);
-
-	if (mSpriteAnimationVector.y == 0 && (mSpriteAnimationVector.x == 0 || mSpriteAnimationVector.x == 4))
-		mSpriteAnimationVector.y = 1;
-	mSprite.setTextureRect(sf::IntRect(mSpriteAnimationVector.x * mSpriteSize.x, mSpriteAnimationVector.y * mSpriteSize.y + mTeamNumber * mSpriteSize.y * 4, mSpriteSize.x, mSpriteSize.y));
+	else if (mUnitSubState == ATTACKING)
+		AttackUpdate();
+	else if (mUnitSubState == DYING)
+		DyingUpdate();
 }
 
 void Unit::Render(sf::RenderWindow *window)
@@ -199,6 +215,11 @@ void Unit::SetCurrentTile(Tile *tile)
 void Unit::SetMouseover(bool mouseover)
 {
 	mMouseover = mouseover;
+}
+
+void Unit::SetSubState(UnitSubState state)
+{
+	mUnitSubState = state;
 }
 
 void Unit::SetMoving(bool moving)
@@ -279,6 +300,17 @@ void Unit::SetTeam(int team)
 	mTeamNumber = team;
 }
 
+void Unit::SetAttackTarget(Unit *target)
+{
+	mCurrentAttackTarget = target;
+}
+
+void Unit::ChangeHP(int difference)
+{
+	mUnitHP += difference;
+	if (mUnitHP < 0) mUnitHP = 0;
+}
+
 GridVector Unit::GetGridPosition() const
 {
 	return mGridVector;
@@ -309,6 +341,11 @@ int Unit::GetMaxAttackRange() const
 	return mMaxAttackRange;
 }
 
+UnitSubState Unit::GetSubState() const
+{
+	return mUnitSubState;
+}
+
 bool Unit::GetMoving() const
 {
 	return mMoving;
@@ -329,6 +366,21 @@ sf::Vector2f Unit::GetCurrentPosition() const
 	return mCurrentPosition;
 }
 
+int Unit::GetAttackDamage() const
+{
+	return mAttackDamage;
+}
+
+int Unit::GetHp() const
+{
+	return mUnitHP;
+}
+
+int Unit::GetBaseHp() const
+{
+	return mBaseHP;
+}
+
 void Unit::UnitMove(vector<GridVector> orderList)
 {
 	mMovementList = orderList;
@@ -336,23 +388,15 @@ void Unit::UnitMove(vector<GridVector> orderList)
 	mMovementList.erase(mMovementList.begin());
 }
 
-//Unit& Unit::operator=(const Unit &unit)
-//{
-//	mGridVector = unit.mGridVector;
-//	mCurrentPosition = unit.mCurrentPosition;
-//	mTeamNumber = unit.mTeamNumber;
-//	mSpriteSize = unit.mSpriteSize;
-//	mBaseMovementRange = unit.mBaseMovementRange;
-//	mUnitClasses = unit.mUnitClasses;
-//	mMinAttackRange = unit.mMinAttackRange;
-//	mMaxAttackRange = unit.mMaxAttackRange;
-//	mMoveAvailable = unit.mMoveAvailable;
-//	mSprite = unit.mSprite;
-//	mRenderPosition = unit.mRenderPosition;
-//	mTexture = unit.mTexture;
-//
-//	return *this;
-//}
+void Unit::AttackUpdate()
+{
+
+}
+
+void Unit::DyingUpdate()
+{
+
+}
 
 void Unit::SetBaseStats()
 {

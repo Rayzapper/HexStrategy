@@ -5,6 +5,9 @@ FighterUnit::FighterUnit(GridVector gridVector, int team)
 {
 	mUnitClasses.push_back(INFANTRY);
 	SetBaseStats();
+	mBaseHP = 11;
+	mUnitHP = mBaseHP;
+	mAttackDamage = 5;
 }
 
 FighterUnit::~FighterUnit()

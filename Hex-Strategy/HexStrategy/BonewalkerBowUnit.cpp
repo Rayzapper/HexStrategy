@@ -6,6 +6,9 @@ BonewalkerBowUnit::BonewalkerBowUnit(GridVector gridVector, int team)
 	mUnitClasses.push_back(INFANTRY),
 	mUnitClasses.push_back(BOWMAN);
 	SetBaseStats();
+	mBaseHP = 8;
+	mUnitHP = mBaseHP;
+	mAttackDamage = 4;
 }
 
 BonewalkerBowUnit::~BonewalkerBowUnit()

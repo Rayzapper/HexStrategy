@@ -179,7 +179,10 @@
     <ClCompile Include="MercenaryUnit.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PlayState.cpp" />
+    <ClCompile Include="RevenantUnit.cpp" />
+    <ClCompile Include="ShamanUnit.cpp" />
     <ClCompile Include="SplashState.cpp" />
+    <ClCompile Include="TarvosUnit.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TitleState.cpp" />
@@ -208,7 +211,10 @@
     <ClInclude Include="MercenaryUnit.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PlayState.h" />
+    <ClInclude Include="RevenantUnit.h" />
+    <ClInclude Include="ShamanUnit.h" />
     <ClInclude Include="SplashState.h" />
+    <ClInclude Include="TarvosUnit.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TitleState.h" />

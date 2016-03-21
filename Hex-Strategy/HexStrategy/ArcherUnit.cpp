@@ -6,6 +6,9 @@ ArcherUnit::ArcherUnit(GridVector gridVector, int team)
 	mUnitClasses.push_back(INFANTRY);
 	mUnitClasses.push_back(BOWMAN);
 	SetBaseStats();
+	mBaseHP = 8;
+	mUnitHP = mBaseHP;
+	mAttackDamage = 4;
 }
 
 ArcherUnit::~ArcherUnit()

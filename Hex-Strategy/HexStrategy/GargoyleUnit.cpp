@@ -3,9 +3,12 @@
 GargoyleUnit::GargoyleUnit(GridVector gridVector, int team)
 	: Unit(10, gridVector, team)
 {
-	mUnitClasses.push_back(INFANTRY);
+	mUnitClasses.push_back(CAVALRY);
 	mUnitClasses.push_back(FLIER);
 	SetBaseStats();
+	mBaseHP = 14;
+	mUnitHP = mBaseHP;
+	mAttackDamage = 7;
 }
 
 GargoyleUnit::~GargoyleUnit()

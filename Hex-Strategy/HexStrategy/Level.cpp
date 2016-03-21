@@ -10,6 +10,9 @@
 #include "ArcherUnit.h"
 #include "BonewalkerBowUnit.h"
 #include "CavallierUnit.h"
+#include "TarvosUnit.h"
+#include "RevenantUnit.h"
+#include "ShamanUnit.h"
 #include "Button.h"
 
 static const int tileSize = 32;
@@ -20,17 +23,7 @@ static sf::View uiView;
 static vector<Button*> rightMenuButtons, unitMenuButtons;
 static Button *cancelButton;
 static sf::Font subMenuFont;
-
-GridVector prototypeVector(0, 0);
-static MercenaryUnit mercenaryPrototype(prototypeVector, 0);
-static WyvernRiderUnit wyvernRiderPrototype(prototypeVector, 0);
-static MageUnit magePrototype(prototypeVector, 0);
-static BonewalkerSwordUnit bonewalkerSwordPrototype(prototypeVector, 0);
-static FighterUnit fighterPrototype(prototypeVector, 0);
-static GargoyleUnit gargoylePrototype(prototypeVector, 0);
-static ArcherUnit archerPrototype(prototypeVector, 0);
-static BonewalkerBowUnit bonewalkerBowPrototype(prototypeVector, 0);
-static CavallierUnit cavallierPrototype(prototypeVector, 0);
+static bool displayHP = false;
 
 struct Selector
 {
@@ -57,7 +50,7 @@ static Tile *selectedTile;
 static Selector selector;
 static sf::Texture selectorTexture;
 
-static sf::Text turnText;
+static sf::Text turnText, hpText;
 static float turnTextBaseX;
 
 Level::Level(GridVector mapSize, sf::RenderWindow *window)
@@ -72,6 +65,10 @@ Level::Level(GridVector mapSize, sf::RenderWindow *window)
 	turnText.setCharacterSize(100);
 	turnTextBaseX = window->getSize().x + 10;
 	turnText.setPosition(sf::Vector2f(turnTextBaseX, window->getSize().y / 2 - 50));
+
+	hpText.setFont(subMenuFont);
+	hpText.setCharacterSize(24);
+	hpText.setColor(sf::Color::Black);
 
 	if (!selectorTexture.loadFromFile("Resources/Graphics/Selector_sprite.png"))
 		cout << "Could not find image Selector_sprite.png" << endl;
@@ -171,14 +168,15 @@ Level::Level(GridVector mapSize, sf::RenderWindow *window)
 	SpawnUnit(MERCENARY, GridVector(4, 8), 0);
 	SpawnUnit(MAGE, GridVector(1, 13), 0);
 	SpawnUnit(WYVERNRIDER, GridVector(15, 17), 0);
-	SpawnUnit(BONEWALKERSWORD, GridVector(20, 18), 1);
+	SpawnUnit(REVENANT, GridVector(20, 18), 1);
 	SpawnUnit(BONEWALKERSWORD, GridVector(21, 17), 1);
-	SpawnUnit(BONEWALKERSWORD, GridVector(20, 20), 1);
+	SpawnUnit(SHAMAN, GridVector(20, 20), 1);
 	SpawnUnit(BONEWALKERBOW, GridVector(21, 19), 1);
-	SpawnUnit(WYVERNRIDER, GridVector(12, 16), 1);
+	SpawnUnit(GARGOYLE, GridVector(12, 16), 1);
 	SpawnUnit(FIGHTER, GridVector(11, 13), 0);
 	SpawnUnit(ARCHER, GridVector(12, 2), 0);
 	SpawnUnit(CAVALLIER, GridVector(5, 21), 0);
+	SpawnUnit(TARVOS, GridVector(22, 26), 1);
 }
 
 Level::~Level()
@@ -235,6 +233,8 @@ void Level::Render(sf::RenderWindow *window)
 		u->Render(window);
 	for each (Unit *u in movingList)
 		u->Render(window);
+	if (mSubState == PLAY && displayHP)
+		window->draw(hpText);
 	window->setView(uiView);
 	selector.Render(window);
 	if (mSubState == RIGHTMENU)
@@ -281,6 +281,7 @@ void Level::ChangeTurn()
 
 void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 {
+	displayHP = false;
 	for each (TileRow r in mTileMap)
 	{
 		for each (Tile *t in r)
@@ -298,6 +299,13 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 			if (t->GetRightClicked() && !click)
 				rightClick = true;
 
+			if (inhabitant != 0 && mouseover)
+			{
+				displayHP = true;
+				hpText.setString(to_string(inhabitant->GetHp()) + "/" + to_string(inhabitant->GetBaseHp()));
+				hpText.setPosition(t->GetGridPosition().x * tileSize, t->GetGridPosition().y * tileSize / 2 + tileSize);
+			}
+
 			if (inhabitant != nullptr && mSelectedUnit == nullptr && inhabitant->GetMoveAvailable() && inhabitant->GetTeam() == mPlayerTurn)
 				inhabitant->SetMouseover(mouseover);
 
@@ -309,11 +317,15 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 						for (TileRow::size_type x = 0; x < mTileMap[y].size(); x++)
 							mTileMap[y][x]->SetHighlight(false);
 
-					if (find(mMovableTiles.begin(), mMovableTiles.end(), t) == mMovableTiles.end() || inhabitant != nullptr)
+					if (find(mMovableTiles.begin(), mMovableTiles.end(), t) == mMovableTiles.end() || (inhabitant != nullptr && inhabitant != mSelectedUnit))
 					{
 						if (inhabitant != nullptr)
+						{
 							if (inhabitant->GetMoveAvailable() && inhabitant->GetTeam() == mPlayerTurn)
 								mSelectedUnit = inhabitant;
+							else if (mSelectedUnit != inhabitant)
+								mSelectedUnit = nullptr;
+						}
 						if (mSelectedUnit != nullptr)
 							mSelectedUnit->SetMoving(false);
 					}
@@ -347,7 +359,7 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 						}
 					}
 
-					if (inhabitant != nullptr)
+					if (inhabitant != nullptr && mSelectedUnit != nullptr)
 					{
 						if (inhabitant->GetMoveAvailable() && inhabitant->GetTeam() == mPlayerTurn)
 						{
@@ -515,8 +527,12 @@ void Level::UnitMenuUpdate(sf::Vector2f mouseWorldPos)
 						Unit *inhabitant = t->GetInhabitant();
 						if (inhabitant != nullptr)
 						{
+							mSubState = UNITATTACK;
 							mUnitIsAttacking = true;
 							UnitAttack(mMovedUnit, inhabitant);
+							for each (Tile *t in mAttackableTiles)
+								t->SetHighlight(false);
+							break;
 						}
 					}
 				}
@@ -619,59 +635,14 @@ void Level::SpawnUnit(UnitType type, GridVector position, int teamNr)
 		unit = new BonewalkerBowUnit(position, teamNr);
 	else if (type == GARGOYLE)
 		unit = new GargoyleUnit(position, teamNr);
+	else if (type == TARVOS)
+		unit = new TarvosUnit(position, teamNr);
+	else if (type == REVENANT)
+		unit = new RevenantUnit(position, teamNr);
+	else if (type == SHAMAN)
+		unit = new ShamanUnit(position, teamNr);
 	else
 		unit = new MercenaryUnit(position, teamNr);
-
-	/*if (type == MERCENARY)
-	{
-		unit = MercenaryUnit(position, teamNr);
-		unit = mercenaryPrototype;
-	}
-	else if (type == FIGHTER)
-	{
-		unit = FighterUnit(position, teamNr);
-		unit = fighterPrototype;
-	}
-	else if (type == ARCHER)
-	{
-		unit = ArcherUnit(position, teamNr);
-		unit = archerPrototype;
-	}
-	else if (type == WYVERNRIDER)
-	{
-		unit = WyvernRiderUnit(position, teamNr);
-		unit = wyvernRiderPrototype;
-	}
-	else if (type == CAVALLIER)
-	{
-		unit = CavallierUnit(position, teamNr);
-		unit = cavallierPrototype;
-	}
-	else if (type == MAGE)
-	{
-		unit = MageUnit(position, teamNr);
-		unit = magePrototype;
-	}
-	else if (type == BONEWALKERSWORD)
-	{
-		unit = BonewalkerSwordUnit(position, teamNr);
-		unit = bonewalkerSwordPrototype;
-	}
-	else if (type == BONEWALKERBOW)
-	{
-		unit = BonewalkerBowUnit(position, teamNr);
-		unit = bonewalkerBowPrototype;
-	}
-	else if (type == GARGOYLE)
-	{
-		unit = GargoyleUnit(position, teamNr);
-		unit = gargoylePrototype;
-	}
-	else
-	{
-		unit = MercenaryUnit(position, teamNr);
-		unit = mercenaryPrototype;
-	}*/
 
 	unit->SetCurrentTile(tile);
 	tile->SetInhabitant(unit);
@@ -687,5 +658,8 @@ void Level::AssignUnitTile(Tile *newTile, Unit *unit)
 
 void Level::UnitAttack(Unit *attacker, Unit *defender)
 {
-
+	int range = mPathfinder.GetDistanceCost(attacker->GetCurrentTile(), defender->GetCurrentTile());
+	bool retaliate = false;
+	if (defender->GetMinAttackRange() <= range && range <= defender->GetMaxAttackRange())
+		retaliate = true;
 }

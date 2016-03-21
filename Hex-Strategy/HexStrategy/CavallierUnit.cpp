@@ -5,6 +5,9 @@ CavallierUnit::CavallierUnit(GridVector gridVector, int team)
 {
 	mUnitClasses.push_back(CAVALRY);
 	SetBaseStats();
+	mBaseHP = 12;
+	mUnitHP = mBaseHP;
+	mAttackDamage = 6;
 }
 
 CavallierUnit::~CavallierUnit()

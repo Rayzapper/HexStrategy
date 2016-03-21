@@ -33,6 +33,12 @@ sf::Texture* TextureManager::GetTexture(int textureID)
 		return &mBonewalkerBowTexture;
 	else if (textureID == 10)
 		return &mGargoyleTexture;
+	else if (textureID == 11)
+		return &mTarvosTexture;
+	else if (textureID == 12)
+		return &mRevenantTexture;
+	else if (textureID == 13)
+		return &mShamanTexture;
 	else
 	{
 		cout << "Something just asked for a non existent texture." << endl;
@@ -64,4 +70,10 @@ TextureManager::TextureManager()
 		cout << "Could not find image BonewalkerBow_spritesheet.png." << endl;
 	if (!mGargoyleTexture.loadFromFile("Resources/Graphics/Gargoyle_spritesheet.png"))
 		cout << "Could not find image Gargoyle_spritesheet.png." << endl;
+	if (!mTarvosTexture.loadFromFile("Resources/Graphics/Tarvos_spritesheet.png"))
+		cout << "Could not find image Tarvos_spritesheet.png." << endl;
+	if (!mRevenantTexture.loadFromFile("Resources/Graphics/Revenant_spritesheet.png"))
+		cout << "Could not find image Revenant_spritesheet.png." << endl;
+	if (!mShamanTexture.loadFromFile("Resources/Graphics/Shaman_spritesheet.png"))
+		cout << "Could not find image Shaman_spritesheet.png." << endl;
 }

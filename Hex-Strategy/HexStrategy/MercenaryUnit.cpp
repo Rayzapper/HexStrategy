@@ -5,6 +5,9 @@ MercenaryUnit::MercenaryUnit(GridVector gridVector, int team)
 {
 	mUnitClasses.push_back(INFANTRY);
 	SetBaseStats();
+	mBaseHP = 10;
+	mUnitHP = mBaseHP;
+	mAttackDamage = 5;
 }
 
 MercenaryUnit::~MercenaryUnit()
