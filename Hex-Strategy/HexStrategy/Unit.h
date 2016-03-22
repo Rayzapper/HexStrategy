@@ -17,8 +17,8 @@ enum UnitClass
 
 enum UnitSubState
 {
-	NOTATTACKING,
-	ATTACKING,
+	NORMAL,
+	DAMAGED,
 	DYING,
 	DEAD
 };
@@ -43,7 +43,6 @@ public:
 	void SetMoveAvailable(bool move);
 	void SetCurrentPosition(sf::Vector2f position);
 	void SetTeam(int team);
-	void SetAttackTarget(Unit *target);
 	void ChangeHP(int difference);
 	GridVector GetGridPosition() const;
 	int GetMovementRange() const;
@@ -61,14 +60,14 @@ public:
 	int GetBaseHp() const;
 	void UnitMove(vector<GridVector> orderList);
 protected:
-	void AttackUpdate();
 	void DyingUpdate();
+	void HurtUpdate();
 	void SetBaseStats();
 	static const int mTileSize = 32;
 	int mTeamNumber;
 	GridVector mGridVector, mSpriteAnimationVector = GridVector(0, 1), mSpriteSize, *mCurrentTargetTile;
 	Tile *mCurrentTile;
-	bool mMoving, mMouseover, mMovingUp, mMovingDown, mMovingLeft, mMovingRight;
+	bool mMoving, mMouseover, mMovingUp, mMovingDown, mMovingLeft, mMovingRight, mRetaliating;
 	int mAnimationDirection = 1;
 	float mAnimationSpeed = 1.0;
 	sf::Clock mAnimationClock, mSubAnimationClock, mDeathClock;
@@ -79,9 +78,8 @@ protected:
 	vector<GridVector> mMovementList;
 	sf::Vector2f mCurrentPosition, mTargetPosition;
 	bool mMoveAvailable = true;
-	UnitSubState mUnitSubState = NOTATTACKING;
-	Unit *mCurrentAttackTarget;
-	int mUnitHP = 0, mBaseHP, mAttackDamage;
+	UnitSubState mUnitSubState = NORMAL;
+	int mUnitHP = 0, mBaseHP, mAttackDamage, mHurtAnimationColor = 0;
 };
 
 #endif

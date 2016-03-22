@@ -190,10 +190,12 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 		PlayUpdate(mouseWorldPos);
 	else if (mSubState == RIGHTMENU)
 		RightMenuUpdate(mouseWorldPos);
-	else if (mSubState == UNITMENU || mSubState == TARGETING || mSubState == UNITATTACK)
+	else if (mSubState == UNITMENU || mSubState == TARGETING)
 		UnitMenuUpdate(mouseWorldPos);
 	else if (mSubState == TURNCHANGE)
 		TurnChangeUpdate(mouseWorldPos);
+	else if (mSubState == UNITATTACK)
+		AttackUpdate(mouseWorldPos);
 	selector.gridPosition = mMouseoverPosition;
 
 	if (DebugManager::GetInstance().debugMode)
@@ -222,10 +224,13 @@ void Level::Render(sf::RenderWindow *window)
 			Unit *inhabitant = t->GetInhabitant();
 			if (inhabitant != nullptr)
 			{
-				if (!inhabitant->GetMoving())
-					unitList.push_back(inhabitant);
-				else
-					movingList.push_back(inhabitant);
+				if (inhabitant->GetHp() > 0)
+				{
+					if (!inhabitant->GetMoving())
+						unitList.push_back(inhabitant);
+					else
+						movingList.push_back(inhabitant);
+				}
 			}
 		}
 	}
@@ -260,6 +265,11 @@ Pathfinder* Level::GetPathfinder()
 	return &mPathfinder;
 }
 
+SubState Level::GetSubState() const
+{
+	return mSubState;
+}
+
 void Level::ChangeTurn()
 {
 	mTurnChangeClock.restart();
@@ -289,6 +299,12 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 			t->Update(mouseWorldPos);
 
 			Unit *inhabitant = t->GetInhabitant();
+			if (inhabitant != 0)
+				if (inhabitant->GetHp() <= 0)
+				{
+					t->SetInhabitant(0);
+					inhabitant = 0;
+				}
 			GridVector gridVector = t->GetGridPosition();
 			bool mouseover = t->GetMouseover(), click = false, rightClick = false;
 			if (mouseover)
@@ -399,7 +415,24 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 		if (u->GetMoveAvailable() && u->GetTeam() == mPlayerTurn)
 			endTurn = false;
 	}
-	if (endTurn)
+	bool player1Win = true, player2Win = true;
+	for (vector<Unit*>::size_type i = 0; i < mUnitVector.size(); i++)
+	{
+		if (mUnitVector[i]->GetSubState() == DEAD)
+		{
+			delete mUnitVector[i];
+			mUnitVector.erase(mUnitVector.begin() + i);
+			i--;
+		}
+		else
+		{
+			if (mUnitVector[i]->GetTeam() == 0) player2Win = false;
+			else if (mUnitVector[i]->GetTeam() == 1) player1Win = false;
+		}
+	}
+	if (player1Win || player2Win)
+		mSubState = WIN;
+	if (endTurn && mSubState != WIN)
 	{
 		mSubState = TURNCHANGE;
 		ChangeTurn();
@@ -538,11 +571,6 @@ void Level::UnitMenuUpdate(sf::Vector2f mouseWorldPos)
 				}
 			}
 		}
-		else if (mSubState == UNITATTACK)
-		{
-			if (!mUnitIsAttacking)
-				mSubState = PLAY;
-		}
 	}
 }
 
@@ -572,6 +600,70 @@ void Level::TurnChangeUpdate(sf::Vector2f mouseWorldPos)
 		mSubState = PLAY;
 		turnText.setPosition(turnTextBaseX, turnText.getPosition().y);
 	}
+}
+
+enum AttackState
+{
+	CHARGE,
+	RETREAT
+};
+
+static sf::Clock attackClock;
+static sf::Vector2f attackAngle;
+static AttackState attackState = CHARGE;
+static const int attackMoveSpeed = 4;
+
+void Level::AttackUpdate(sf::Vector2f mouseWorldPos)
+{
+	for each (Unit *u in mUnitVector)
+		if (u != mAttacker && u != mDefender)
+			u->Update(mouseWorldPos);
+	if (attackState == CHARGE)
+	{
+		sf::Vector2f newPos = mAttacker->GetCurrentPosition();
+		newPos.x = newPos.x + attackAngle.x * attackMoveSpeed;
+		newPos.y = newPos.y + attackAngle.y * attackMoveSpeed;
+		mAttacker->SetCurrentPosition(newPos);
+		if (attackClock.getElapsedTime().asMilliseconds() >= 100)
+		{
+			attackState = RETREAT;
+			attackClock.restart();
+			mDefender->ChangeHP(-mAttacker->GetAttackDamage());
+		}
+	}
+	else if (attackState == RETREAT)
+	{
+		sf::Vector2f newPos = mAttacker->GetCurrentPosition();
+		newPos.x = newPos.x - attackAngle.x * attackMoveSpeed;
+		newPos.y = newPos.y - attackAngle.y * attackMoveSpeed;
+		mAttacker->SetCurrentPosition(newPos);
+		if (attackClock.getElapsedTime().asMilliseconds() >= 100)
+		{
+			attackState = CHARGE;
+			mAttacker->SetCurrentPosition(sf::Vector2f(mAttacker->GetCurrentTile()->GetGridPosition().x * tileSize, mAttacker->GetCurrentTile()->GetGridPosition().y * tileSize / 2));
+			attackClock.restart();
+			if (!mRetaliate)
+				mSubState = PLAY;
+			if (mRetaliate && mDefender->GetHp() > 0)
+			{
+				mRetaliate = false;
+				Unit *temp = mAttacker;
+				mAttacker = mDefender;
+				mDefender = temp;
+				attackAngle.x *= -1;
+				attackAngle.y *= -1;
+			}
+			else
+			{
+				mRetaliate = false;
+				mSubState = PLAY;
+			}
+		}
+	}
+	if (mAttacker != 0)
+		mAttacker->Update(mouseWorldPos);
+	if (mDefender != 0)
+		mDefender->Update(mouseWorldPos);
 }
 
 void Level::InternalClear()
@@ -662,4 +754,14 @@ void Level::UnitAttack(Unit *attacker, Unit *defender)
 	bool retaliate = false;
 	if (defender->GetMinAttackRange() <= range && range <= defender->GetMaxAttackRange())
 		retaliate = true;
+	mAttacker = attacker;
+	mDefender = defender;
+	mRetaliate = retaliate;
+	attackAngle = defender->GetCurrentPosition() - attacker->GetCurrentPosition();
+	attackAngle = attackAngle / hypotf(attackAngle.x, attackAngle.y);
+	for each (Tile *t in mAttackableTiles)
+		t->SetHighlight(false);
+	mAttackableTiles.clear();
+	mAttacker->SetMoveAvailable(false);
+	attackClock.restart();
 }

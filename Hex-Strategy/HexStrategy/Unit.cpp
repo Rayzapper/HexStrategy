@@ -32,16 +32,17 @@ void Unit::Update(sf::Vector2f mouseWorldPos)
 	else
 		mSprite.setColor(sf::Color(127, 127, 127, 255));
 
-	if (mUnitSubState != DEAD)
+	if (mUnitSubState != DEAD && mUnitSubState != DYING)
 	{
-		mUnitSubState = NOTATTACKING;
-		if (mCurrentAttackTarget != nullptr)
-			mUnitSubState = ATTACKING;
+		mUnitSubState = NORMAL;
 		if (mUnitHP <= 0)
+		{
 			mUnitSubState = DYING;
+			mHurtAnimationColor = 255;
+		}
 	}
 
-	if (mUnitSubState == NOTATTACKING)
+	if (mUnitSubState == NORMAL)
 	{
 		SetMoving(!mMovementList.empty());
 		if (!mMovementList.empty())
@@ -191,10 +192,10 @@ void Unit::Update(sf::Vector2f mouseWorldPos)
 			mSpriteAnimationVector.y = 1;
 		mSprite.setTextureRect(sf::IntRect(mSpriteAnimationVector.x * mSpriteSize.x, mSpriteAnimationVector.y * mSpriteSize.y + mTeamNumber * mSpriteSize.y * 4, mSpriteSize.x, mSpriteSize.y));
 	}
-	else if (mUnitSubState == ATTACKING)
-		AttackUpdate();
 	else if (mUnitSubState == DYING)
 		DyingUpdate();
+	else if (mUnitSubState == DAMAGED)
+		HurtUpdate();
 }
 
 void Unit::Render(sf::RenderWindow *window)
@@ -300,15 +301,15 @@ void Unit::SetTeam(int team)
 	mTeamNumber = team;
 }
 
-void Unit::SetAttackTarget(Unit *target)
-{
-	mCurrentAttackTarget = target;
-}
-
 void Unit::ChangeHP(int difference)
 {
 	mUnitHP += difference;
 	if (mUnitHP < 0) mUnitHP = 0;
+	if (mUnitHP != 0 && difference < 0)
+	{
+		mUnitSubState = DAMAGED;
+		mSprite.setColor(sf::Color(255, 0, 0, 255));
+	}
 }
 
 GridVector Unit::GetGridPosition() const
@@ -388,14 +389,25 @@ void Unit::UnitMove(vector<GridVector> orderList)
 	mMovementList.erase(mMovementList.begin());
 }
 
-void Unit::AttackUpdate()
-{
-
-}
-
 void Unit::DyingUpdate()
 {
+	mHurtAnimationColor -= 4;
+	if (mHurtAnimationColor <= 0) mHurtAnimationColor = 0;
+	mSprite.setColor(sf::Color(255, mHurtAnimationColor, mHurtAnimationColor, mHurtAnimationColor));
+	if (mHurtAnimationColor <= 0)
+		mUnitSubState = DEAD;
+}
 
+void Unit::HurtUpdate()
+{
+	mHurtAnimationColor += 10;
+	if (mHurtAnimationColor >= 255) mHurtAnimationColor = 255;
+	mSprite.setColor(sf::Color(255, mHurtAnimationColor, mHurtAnimationColor, 255));
+	if (mHurtAnimationColor >= 255)
+	{
+		mUnitSubState = NORMAL;
+		mHurtAnimationColor = 0;
+	}
 }
 
 void Unit::SetBaseStats()
