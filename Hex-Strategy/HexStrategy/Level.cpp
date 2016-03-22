@@ -196,6 +196,8 @@ void Level::Update(sf::Vector2f mouseWorldPos)
 		TurnChangeUpdate(mouseWorldPos);
 	else if (mSubState == UNITATTACK)
 		AttackUpdate(mouseWorldPos);
+	else if (mSubState == WIN)
+		WinUpdate(mouseWorldPos);
 	selector.gridPosition = mMouseoverPosition;
 
 	if (DebugManager::GetInstance().debugMode)
@@ -250,7 +252,7 @@ void Level::Render(sf::RenderWindow *window)
 			b->Render(window);
 	if (mSubState == TARGETING)
 		cancelButton->Render(window);
-	if (mSubState == TURNCHANGE)
+	if (mSubState == TURNCHANGE || mSubState == WIN)
 		window->draw(turnText);
 	window->setView(mainView);
 }
@@ -431,7 +433,17 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 		}
 	}
 	if (player1Win || player2Win)
+	{
+		turnText.setPosition(100, 250);
+		int winningTeam = mUnitVector.front()->GetTeam() + 1;
+		if (winningTeam == 0)
+			turnText.setColor(sf::Color::Blue);
+		else
+			turnText.setColor(sf::Color::Red);
+		turnText.setString("Player " + to_string(winningTeam) + " Wins!");
+		mTurnChangeClock.restart();
 		mSubState = WIN;
+	}
 	if (endTurn && mSubState != WIN)
 	{
 		mSubState = TURNCHANGE;
@@ -666,6 +678,29 @@ void Level::AttackUpdate(sf::Vector2f mouseWorldPos)
 		mDefender->Update(mouseWorldPos);
 }
 
+void Level::WinUpdate(sf::Vector2f mouseWorldPos)
+{
+	for each (TileRow r in mTileMap)
+	{
+		for each (Tile *t in r)
+		{
+			t->Update(mouseWorldPos);
+
+			GridVector gridVector = t->GetGridPosition();
+			bool mouseover = t->GetMouseover();
+			if (mouseover)
+				mMouseoverPosition = gridVector;
+		}
+	}
+	for each (Unit *u in mUnitVector)
+	{
+		u->Update(mouseWorldPos);
+	}
+
+	if (mTurnChangeClock.getElapsedTime().asSeconds() >= 5)
+		mSubState = LEVELOVER;
+}
+
 void Level::InternalClear()
 {
 	while (!mTileMap.empty())
@@ -673,33 +708,25 @@ void Level::InternalClear()
 		while (!mTileMap.back().empty())
 		{
 			delete mTileMap.back().back();
-			assert(mTileMap.back().back() == nullptr);
 			mTileMap.back().pop_back();
 		}
 		mTileMap.pop_back();
 	}
-	assert(mTileMap.empty());
 	while (!mUnitVector.empty())
 	{
 		delete mUnitVector.back();
-		assert(mUnitVector.back() == nullptr);
 		mUnitVector.pop_back();
 	}
-	assert(mUnitVector.empty());
 	while (!rightMenuButtons.empty())
 	{
 		delete rightMenuButtons.back();
-		assert(rightMenuButtons.back() == nullptr);
 		rightMenuButtons.pop_back();
 	}
-	assert(rightMenuButtons.empty());
 	while (!unitMenuButtons.empty())
 	{
 		delete unitMenuButtons.back();
-		assert(unitMenuButtons.back() == nullptr);
 		unitMenuButtons.pop_back();
 	}
-	assert(unitMenuButtons.empty());
 }
 
 void Level::SpawnUnit(UnitType type, GridVector position, int teamNr)

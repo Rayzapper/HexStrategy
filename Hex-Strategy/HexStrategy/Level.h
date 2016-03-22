@@ -16,7 +16,8 @@ enum SubState
 	TARGETING,
 	UNITATTACK,
 	TURNCHANGE,
-	WIN
+	WIN,
+	LEVELOVER
 };
 
 enum UnitType
@@ -54,6 +55,7 @@ public:
 	void UnitMenuUpdate(sf::Vector2f mouseWorldPos);
 	void TurnChangeUpdate(sf::Vector2f mouseWorldPos);
 	void AttackUpdate(sf::Vector2f mouseWorldPos);
+	void WinUpdate(sf::Vector2f mouseWorldPos);
 private:
 	void InternalClear();
 	void SpawnUnit(UnitType type, GridVector position, int teamNr);

@@ -17,7 +17,7 @@ GameStateManager& GameStateManager::GetInstance()
 void GameStateManager::Initialize(sf::RenderWindow *window)
 {
 	mWindow = window;
-	stateStack.push(new PlayState(this, ""));
+	stateStack.push(new SplashState(this));
 }
 
 void GameStateManager::LoadContent()

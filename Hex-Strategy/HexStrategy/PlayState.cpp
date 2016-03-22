@@ -1,5 +1,6 @@
 #include "PlayState.h"
 #include "UIElement.h"
+#include "MainMenuState.h"
 #include <iostream>
 
 static const int tileSize = 32;
@@ -24,12 +25,14 @@ void PlayState::LoadContent()
 
 void PlayState::UnloadContent()
 {
-	
+	delete currentLevel;
 }
 
 void PlayState::Update(sf::Vector2f mouseWorldPos)
 {
 	currentLevel->Update(mouseWorldPos);
+	if (currentLevel->GetSubState() == LEVELOVER)
+		ChangeState(new MainMenuState(mGameStateManager));
 }
 
 void PlayState::Render(sf::RenderWindow *window)
