@@ -436,7 +436,7 @@ void Level::PlayUpdate(sf::Vector2f mouseWorldPos)
 	{
 		turnText.setPosition(100, 250);
 		int winningTeam = mUnitVector.front()->GetTeam() + 1;
-		if (winningTeam == 0)
+		if (winningTeam == 1)
 			turnText.setColor(sf::Color::Blue);
 		else
 			turnText.setColor(sf::Color::Red);
@@ -572,12 +572,15 @@ void Level::UnitMenuUpdate(sf::Vector2f mouseWorldPos)
 						Unit *inhabitant = t->GetInhabitant();
 						if (inhabitant != nullptr)
 						{
-							mSubState = UNITATTACK;
-							mUnitIsAttacking = true;
-							UnitAttack(mMovedUnit, inhabitant);
-							for each (Tile *t in mAttackableTiles)
-								t->SetHighlight(false);
-							break;
+							if (mMovedUnit->GetTeam() != inhabitant->GetTeam())
+							{
+								mSubState = UNITATTACK;
+								mUnitIsAttacking = true;
+								UnitAttack(mMovedUnit, inhabitant);
+								for each (Tile *t in mAttackableTiles)
+									t->SetHighlight(false);
+								break;
+							}
 						}
 					}
 				}
