@@ -5,6 +5,7 @@
 #include "SplashState.h"
 #include "TitleState.h"
 #include "PlayState.h"
+#include "MainMenuState.h"
 
 class GameStateManager
 {

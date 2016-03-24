@@ -2,8 +2,6 @@
 #define LEVEL_H
 
 #include <vector>
-#include "Tile.h"
-#include "Unit.h"
 #include "Pathfinder.h"
 
 #include "DebugManager.h"

@@ -1,4 +1,4 @@
-#ifndef	MAGEUNIT_H
+#ifndef MAGEUNIT_H
 #define MAGEUNIT_H
 
 #include "Unit.h"

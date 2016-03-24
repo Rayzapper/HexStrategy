@@ -78,9 +78,6 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="MenuState.cpp">
-      <Filter>Source Files\GameStates</Filter>
-    </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
@@ -173,9 +170,6 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>Header Files\GameStates</Filter>
-    </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
@@ -224,5 +218,8 @@
     <ClInclude Include="ShamanUnit.h">
       <Filter>Header Files\Entities\Units</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#ifndef	GARGOYLEUNIT_H
+#ifndef GARGOYLEUNIT_H
 #define GARGOYLEUNIT_H
 
 #include "Unit.h"

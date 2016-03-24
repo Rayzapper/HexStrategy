@@ -175,7 +175,6 @@
     <ClCompile Include="MageUnit.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
-    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MercenaryUnit.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PlayState.cpp" />
@@ -207,7 +206,6 @@
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="MageUnit.h" />
     <ClInclude Include="MainMenuState.h" />
-    <ClInclude Include="MenuState.h" />
     <ClInclude Include="MercenaryUnit.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="PlayState.h" />
@@ -221,6 +219,9 @@
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="WyvernRiderUnit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

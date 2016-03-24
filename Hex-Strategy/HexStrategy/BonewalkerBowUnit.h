@@ -1,4 +1,4 @@
-#ifndef	BONEWALKERBOWUNIT_H
+#ifndef BONEWALKERBOWUNIT_H
 #define BONEWALKERBOWUNIT_H
 
 #include "Unit.h"

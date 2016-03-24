@@ -1,4 +1,4 @@
-#ifndef	WYVERNRIDERUNIT_H
+#ifndef WYVERNRIDERUNIT_H
 #define WYVERNRIDERUNIT_H
 
 #include "Unit.h"

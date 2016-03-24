@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "Tile.h"
 #include <cassert>
 #include <iostream>
 #include "MercenaryUnit.h"
