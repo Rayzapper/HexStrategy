@@ -1,10 +1,31 @@
-﻿  GameStateManager.cpp
-  GameState.cpp
-  Generating Code...
-  Compiling...
-  BonewalkerBowUnit.cpp
-  Generating Code...
-  Compiling...
+﻿  WyvernRiderUnit.cpp
+  Unit.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(111): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\unit.cpp(148): warning C4305: '=': truncation from 'double' to 'float'
+  UIElement.cpp
+  TitleState.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\titlestate.cpp(52): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  Tile.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\tile.cpp(13): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\tile.cpp(14): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\tile.cpp(23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\tile.cpp(25): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  TextureManager.cpp
+  TarvosUnit.cpp
+  SplashState.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\splashstate.cpp(32): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  ShamanUnit.cpp
+  RevenantUnit.cpp
+  PlayState.cpp
+  Pathfinder.cpp
+  MercenaryUnit.cpp
+  MainMenuState.cpp
+  Main.cpp
+  MageUnit.cpp
   Level.cpp
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(67): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
@@ -24,17 +45,28 @@ c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\h
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(369): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(371): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(546): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(656): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(736): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(659): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\level.cpp(739): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  GridVector.cpp
+  GargoyleUnit.cpp
+  GameStateManager.cpp
   Generating Code...
   Compiling...
-  WyvernRiderUnit.cpp
-  MageUnit.cpp
-  GargoyleUnit.cpp
+  GameState.cpp
+  Game.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\game.cpp(32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\game.cpp(33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  FighterUnit.cpp
+  Entity.cpp
+  DebugManager.cpp
+  CavallierUnit.cpp
+  Button.cpp
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(63): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(64): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\rasmus\documents\visual studio 2015\projects\hexstrategy\hex-strategy\hexstrategy\button.cpp(108): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   BonewalkerSwordUnit.cpp
+  BonewalkerBowUnit.cpp
+  ArcherUnit.cpp
   Generating Code...
-  Skipping... (no relevant changes detected)
-  TarvosUnit.cpp
-  ShamanUnit.cpp
-  RevenantUnit.cpp
   HexStrategy.vcxproj -> C:\Users\Rasmus\Documents\Visual Studio 2015\Projects\HexStrategy\Hex-Strategy\Debug\HexStrategy.exe
